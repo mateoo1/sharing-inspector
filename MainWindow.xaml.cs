@@ -28,18 +28,50 @@ namespace Sharing_Inspector
 
         }
 
+        private ADactions Domain
+        {
+            get { return new ADactions(); }
+            set { }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
 
-            var domainInfo = new ADactions().IdentifyDomain();
-
-            domain.Text = domainInfo["domain"];
-            domainPrefix.Text = domainInfo["domainPrefix"];
-            ContainerPath.Text = domainInfo["ContainerPath"];
+            domain.Text = Domain.domain;
+            domainPrefix.Text = Domain.domainPrefix;
+            ContainerPath.Text = Domain.ContainerPath;
 
         }
 
+        private void submitButton_Click(object sender, RoutedEventArgs e)
+        {
+            accessData.Text = "LocalPath;AdGroupName;SamAccountName;Status";
+            ArrayList folderDataCollection;
+            folderDataCollection = this.folderProps.ShowAccessGroupsOfParentOnly(domainPrefix.Text);
+
+            foreach (string[] folderArray in folderDataCollection)
+            {
+
+                try
+                {
+                    ArrayList membersOfThisGroup = Domain.ShowMembers(folderArray[0]);
+
+                    foreach (string member in membersOfThisGroup)
+                    {
+                        
+                        accessData.Text += "\n" + folderArray[1] + " ; " + folderArray[0] + " ; " + member + " ; " + Domain.AccountStatus(member);
+                    }
+
+                    Domain.DisposeContext();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Failed to query a domain.");
+                    break;
+                }
+            }
+        }
 
         public static string OpenFileBrowserDialog(bool multiselect)
         {
@@ -65,36 +97,9 @@ namespace Sharing_Inspector
         }
 
 
-        private void submitButton_Click(object sender, RoutedEventArgs e)
-        {
-            accessData.Text = "LocalPath;AdGroupName;SamAccountName;AccountEnabled";
-            ArrayList folderDataCollection;
-            folderDataCollection = this.folderProps.ShowAccessGroupsOfParentOnly(domainPrefix.Text);
-
-            foreach (string[] folderArray in folderDataCollection)
-            {
-                ADactions mbrs = new ADactions();
-
-                try
-                {
-                    ArrayList membersOfThisGroup = mbrs.ShowMembers(folderArray[0], domain.Text, ContainerPath.Text);
-
-                    foreach (string member in membersOfThisGroup)
-                    {
-                        accessData.Text += "\n" + folderArray[1] + " ; " + folderArray[0] + " ; " + member;
-                    }
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Failed to query a domain.");
-                    break;
-                }
-            }
-        }
-
-
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
+            Domain.DisposeContext();
             Close();
         }
 
@@ -112,8 +117,8 @@ namespace Sharing_Inspector
             }
         }
 
-        /*
 
+        /*
 
         private void test_Click(object sender, RoutedEventArgs e)
         {

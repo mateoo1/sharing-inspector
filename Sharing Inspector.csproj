@@ -66,6 +66,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Classes\AccessRecord.cs" />
     <Compile Include="Classes\ADactions.cs" />
     <Compile Include="Classes\FolderDialog.cs" />
     <Compile Include="Classes\FolderProps.cs" />
@@ -103,12 +104,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Fonts\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\gear-icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\gear-icon-white.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\gears-color.png" />

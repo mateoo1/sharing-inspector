@@ -10,6 +10,30 @@ namespace Sharing_Inspector
 {
     class ADactions
     {
+        public PrincipalContext ctx;
+        public string domain;
+        public string domainPrefix;
+        public string ContainerPath;
+
+        public ADactions()
+        {
+            
+            string domainString = System.Net.NetworkInformation.IPGlobalProperties.GetIPGlobalProperties().DomainName;
+            string[] domainElements = domainString.Split('.');
+            this.domain = domainElements[0];
+            this.domainPrefix = domainElements[0].ToUpper() + @"\";
+
+            foreach (string domainElement in domainElements)
+            {
+                this.ContainerPath += "DC=" + domainElement + ",";
+            }
+
+            this.ContainerPath = ContainerPath.Remove(ContainerPath.Length - 1);
+
+            this.ctx = new PrincipalContext(ContextType.Domain, this.domain, this.ContainerPath);
+        }
+
+        /*
         public Dictionary<string, string> IdentifyDomain()
         {
 
@@ -32,13 +56,11 @@ namespace Sharing_Inspector
 
             return domainInfo;
         }
+        */
 
-
-        public ArrayList ShowMembers(string groupName, string domainName, string containerPath)
+        public ArrayList ShowMembers(string groupName)
         {
             ArrayList accesslist = new ArrayList();
-            PrincipalContext ctx = new PrincipalContext(ContextType.Domain, domainName, containerPath);
-
             GroupPrincipal grp = GroupPrincipal.FindByIdentity(ctx, IdentityType.Name, groupName);
 
             if (grp != null)
@@ -57,8 +79,33 @@ namespace Sharing_Inspector
                 accesslist.Add(userName);
             }
 
-            ctx.Dispose();
             return accesslist;
         }
+
+        public string AccountStatus(string samAccontName)
+        {
+            UserPrincipal usr = UserPrincipal.FindByIdentity(ctx, IdentityType.SamAccountName, samAccontName);
+
+            if (usr.Enabled == true)
+            {
+
+                return "Enabled";
+            }
+            else if (usr.Enabled == false) 
+            {
+
+                return "Disabled";
+            }
+            else
+            {
+                return "Unknown";
+            }
+        }
+
+        public void DisposeContext()
+        {
+            ctx.Dispose();
+        }
+
     }
 }
