@@ -1,18 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Sharing_Inspector
 {
@@ -34,6 +24,8 @@ namespace Sharing_Inspector
             set { }
         }
 
+        List<AccessRecord> AccessData = new List<AccessRecord>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -50,7 +42,7 @@ namespace Sharing_Inspector
 
         private void submitButton_Click(object sender, RoutedEventArgs e)
         {
-            accessData.Text = "LocalPath;AdGroupName;SamAccountName;Status";
+            accessData.Text = "LocalPath,AdGroupName,SamAccountName,Status";
             ArrayList folderDataCollection;
             folderDataCollection = this.folderProps.ShowAccessGroupsOfParentOnly(domainPrefix.Text);
 
@@ -63,15 +55,32 @@ namespace Sharing_Inspector
 
                     foreach (string member in membersOfThisGroup)
                     {
+                        string userAccountStatus;
+
+                        if (checkAccountStatus.IsChecked == true)
+                        {
+                            userAccountStatus = Domain.AccountStatus(member);
+                        }
+                        else
+                        {
+                            userAccountStatus = "";
+                        }
                         
-                        accessData.Text += "\n" + folderArray[1] + " ; " + folderArray[0] + " ; " + member + " ; " + Domain.AccountStatus(member);
+
+                        //accessData.Text += "\n" + folderArray[1] + " ; " + folderArray[0] + " ; " + member + " ; " + userAccountStatus;
+                        //AccessData.Add(new AccessRecord(folderArray[1], folderArray[0], member, userAccountStatus));
+
+                        AccessRecord Record = new AccessRecord(folderArray[1], folderArray[0], member, userAccountStatus);
+                        AccessData.Add(Record);
+                        accessData.Text += "\n" + Record.LocalPath + "," + Record.AdGroupName + "," + Record.SamAccountName + "," + Record.Status;
+
                     }
 
                     Domain.DisposeContext();
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Failed to query a domain.");
+                    MessageBox.Show("Failed to query a domain.", "Failure", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
                 }
             }
@@ -121,22 +130,25 @@ namespace Sharing_Inspector
             }
         }
 
-
-        /*
-
-        private void test_Click(object sender, RoutedEventArgs e)
+        private void checkAccountStatus_click(object sender, RoutedEventArgs e)
         {
 
-            var domainInfo = new ADactions().IdentifyDomain();
+            MessageBoxResult dialogResult;
 
-            MessageBox.Show
-                (domainInfo["domain"] + "\n" +
-                domainInfo["domainPrefix"] + "\n" +
-                domainInfo["ContainerPath"],
-                "Test", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+            if (checkAccountStatus.IsChecked == true)
+            {
+               dialogResult = MessageBox.Show("This will take more time to display results. Do you want to continue?", "Information", MessageBoxButton.YesNo, MessageBoxImage.Information);
 
+
+                if (dialogResult == MessageBoxResult.No)
+                {
+                    checkAccountStatus.IsChecked = false;
+                }
+                else
+                {
+                    checkAccountStatus.IsChecked = true;
+                }
+            }
         }
-        */
-
     }
 }

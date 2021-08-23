@@ -156,6 +156,23 @@
                        Width="300"
                        Background="#1F1F2D"
                        Foreground="#FFFFFF"/>
+
+                
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
+                <TextBlock Text="Check user account status"
+                       Width="165"
+                       Foreground="White"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       FontFamily="Fonts/#Lato-Regular"
+                       FontWeight="Medium"
+                       FontSize="14"
+                       Margin="5,0,15,0"/>
+                
+                <CheckBox x:Name="checkAccountStatus" 
+                          Click="checkAccountStatus_click"/>
             </StackPanel>
 
 
@@ -167,7 +184,7 @@
                 Content="Select Directories" 
                 Click="addFolderButton_Click"
                 Foreground="#FFFFFF"
-                Margin="10,40,10,10">
+                Margin="10,10,10,10">
 
                     <Button.Style>
                         <Style TargetType="Button">
@@ -253,9 +270,9 @@
 
             </Button>
 
-
+            <!--OUTPUT-->
             <TextBox x:Name="accessData"
-                 Height="260"
+                 Height="270"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                  FontSize="11" 

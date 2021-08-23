@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.DirectoryServices.AccountManagement;
 using System.Collections;
+using System.DirectoryServices.AccountManagement;
 
 namespace Sharing_Inspector
 {
