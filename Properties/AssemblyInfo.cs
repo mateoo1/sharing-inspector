@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("Sharing Inspector")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("mateoo1")]
 [assembly: AssemblyProduct("Sharing Inspector")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]

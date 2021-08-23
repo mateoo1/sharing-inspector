@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sharing_Inspector"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="900"
+        Title="Sharing Inspector" Height="500" Width="900"
         WindowStyle="None"
         ResizeMode="NoResize"
         Background="#1F1F2D">
