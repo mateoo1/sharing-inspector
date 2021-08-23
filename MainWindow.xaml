@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Sharing Inspector" Height="500" Width="900"
         WindowStyle="None"
-        ResizeMode="NoResize"
+        ResizeMode="CanMinimize"
         Background="#1F1F2D">
    
     <Grid>
