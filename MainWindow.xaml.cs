@@ -42,6 +42,10 @@ namespace Sharing_Inspector
             domainPrefix.Text = Domain.domainPrefix;
             ContainerPath.Text = Domain.ContainerPath;
 
+            if (Domain.domainAvailability == false)
+            {
+                MessageBox.Show("Domain is not available. Program will not work correctly.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void submitButton_Click(object sender, RoutedEventArgs e)

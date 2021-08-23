@@ -14,6 +14,7 @@ namespace Sharing_Inspector
         public string domain;
         public string domainPrefix;
         public string ContainerPath;
+        public bool domainAvailability;
 
         public ADactions()
         {
@@ -30,7 +31,15 @@ namespace Sharing_Inspector
 
             this.ContainerPath = ContainerPath.Remove(ContainerPath.Length - 1);
 
-            this.ctx = new PrincipalContext(ContextType.Domain, this.domain, this.ContainerPath);
+            try
+            {
+                this.ctx = new PrincipalContext(ContextType.Domain, this.domain, this.ContainerPath);
+                this.domainAvailability = true;
+            }
+            catch (Exception)
+            {
+                this.domainAvailability = false;
+            }  
         }
 
         /*
@@ -104,7 +113,12 @@ namespace Sharing_Inspector
 
         public void DisposeContext()
         {
-            ctx.Dispose();
+
+            if (this.ctx != null)
+            {
+                ctx.Dispose();
+            }
+            
         }
 
     }
