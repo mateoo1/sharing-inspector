@@ -34,17 +34,22 @@ namespace Sharing_Inspector
             domainPrefix.Text = Domain.domainPrefix;
             ContainerPath.Text = Domain.ContainerPath;
 
+            accessData.Text = "LocalPath,AdGroupName,SamAccountName";
+
             if (Domain.domainAvailability == false)
             {
-                MessageBox.Show("Domain is not available. Program will not work correctly.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Domain is not available. Program will not work correctly.", 
+                    "Warning", 
+                    MessageBoxButton.OK, 
+                    MessageBoxImage.Warning);
             }
         }
 
         private void submitButton_Click(object sender, RoutedEventArgs e)
         {
-            accessData.Text = "LocalPath,AdGroupName,SamAccountName,Status";
-            ArrayList folderDataCollection;
-            folderDataCollection = this.folderProps.ShowAccessGroupsOfParentOnly(domainPrefix.Text);
+
+
+            ArrayList folderDataCollection = this.folderProps.ShowAccessGroupsOfParentOnly(domainPrefix.Text);
 
             foreach (string[] folderArray in folderDataCollection)
             {
@@ -80,7 +85,10 @@ namespace Sharing_Inspector
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Failed to query a domain.", "Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Failed to query a domain.", 
+                        "Failure",
+                        MessageBoxButton.OK, 
+                        MessageBoxImage.Error);
                     break;
                 }
             }
@@ -121,7 +129,6 @@ namespace Sharing_Inspector
             WindowState = WindowState.Minimized;
         }
 
-
         private void Grid_Drag(object sender, MouseButtonEventArgs e)
         {
             if(e.LeftButton == MouseButtonState.Pressed)
@@ -137,17 +144,25 @@ namespace Sharing_Inspector
 
             if (checkAccountStatus.IsChecked == true)
             {
-               dialogResult = MessageBox.Show("This will take more time to display results. Do you want to continue?", "Information", MessageBoxButton.YesNo, MessageBoxImage.Information);
-
+               dialogResult = MessageBox.Show("This will take more time to display results. Do you want to continue?", 
+                   "Information", 
+                   MessageBoxButton.YesNo, 
+                   MessageBoxImage.Information);
 
                 if (dialogResult == MessageBoxResult.No)
                 {
                     checkAccountStatus.IsChecked = false;
+                    
                 }
                 else
                 {
                     checkAccountStatus.IsChecked = true;
+                    accessData.Text = "LocalPath,AdGroupName,SamAccountName,Status";
                 }
+            }
+            else
+            {
+                accessData.Text = "LocalPath,AdGroupName,SamAccountName";
             }
         }
     }
