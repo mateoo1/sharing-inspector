@@ -60,24 +60,27 @@ namespace Sharing_Inspector
 
                     foreach (string member in membersOfThisGroup)
                     {
-                        string userAccountStatus;
+                        string[] userAccountInfo = new string[2];
 
                         if (checkAccountStatus.IsChecked == true)
                         {
-                            userAccountStatus = Domain.AccountStatus(member);
+                            userAccountInfo = Domain.AccountStatus(member);
+                            AccessRecord Record = new AccessRecord(folderArray[1], folderArray[0], member, userAccountInfo[0], userAccountInfo[1]);
+                            AccessData.Add(Record);
+                            accessData.Text += "\n" + Record.LocalPath + "," + Record.AdGroupName + "," + Record.SamAccountName + "," + Record.FullName + "," + Record.Status;
                         }
                         else
                         {
-                            userAccountStatus = "";
+                            AccessRecord Record = new AccessRecord(folderArray[1], folderArray[0], member);
+                            AccessData.Add(Record);
+                            accessData.Text += "\n" + Record.LocalPath + "," + Record.AdGroupName + "," + Record.SamAccountName;
                         }
                         
 
                         //accessData.Text += "\n" + folderArray[1] + " ; " + folderArray[0] + " ; " + member + " ; " + userAccountStatus;
                         //AccessData.Add(new AccessRecord(folderArray[1], folderArray[0], member, userAccountStatus));
 
-                        AccessRecord Record = new AccessRecord(folderArray[1], folderArray[0], member, userAccountStatus);
-                        AccessData.Add(Record);
-                        accessData.Text += "\n" + Record.LocalPath + "," + Record.AdGroupName + "," + Record.SamAccountName + "," + Record.Status;
+
 
                     }
 
@@ -157,7 +160,7 @@ namespace Sharing_Inspector
                 else
                 {
                     checkAccountStatus.IsChecked = true;
-                    accessData.Text = "LocalPath,AdGroupName,SamAccountName,Status";
+                    accessData.Text = "LocalPath,AdGroupName,SamAccountName,FullName,Status";
                 }
             }
             else

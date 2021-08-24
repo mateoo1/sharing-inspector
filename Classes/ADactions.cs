@@ -87,24 +87,30 @@ namespace Sharing_Inspector
             return accesslist;
         }
 
-        public string AccountStatus(string samAccontName)
+        public string[] AccountStatus(string samAccontName)
         {
             UserPrincipal usr = UserPrincipal.FindByIdentity(ctx, IdentityType.SamAccountName, samAccontName);
 
+            string[] userData = new string[2];
+
+            userData[0] = usr.GivenName + " " + usr.Surname;
+
             if (usr.Enabled == true)
             {
-
-                return "Enabled";
+                userData[1] = "Enabled";
+                
             }
             else if (usr.Enabled == false) 
             {
 
-                return "Disabled";
+                userData[1] = "Disabled";
             }
             else
             {
-                return "Unknown";
+                userData[1] = "Unknown";
             }
+
+            return userData;
         }
 
         public void DisposeContext()

@@ -98,7 +98,7 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        FontFamily="Fonts/#Lato-Regular"
-                       FontWeight="Medium"
+                       FontWeight="Light"
                        FontSize="14"
                        Margin="5,0,15,0"/>
 
@@ -106,21 +106,21 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        FontFamily="Fonts/#Lato-Regular"
-                       FontWeight="Medium"
-                       FontSize="14"
+                       FontWeight="Light"
+                       FontSize="12"
                        Width="300"
                        Background="#1F1F2D"
                        Foreground="#FFFFFF"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
+            <StackPanel Orientation="Horizontal" Margin="10,0,10,10">
                 <TextBlock Text="Prefix"
                        Width="80"
                        Foreground="White"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        FontFamily="Fonts/#Lato-Regular"
-                       FontWeight="Medium"
+                       FontWeight="Light"
                        FontSize="14"
                        Margin="5,0,15,0"/>
 
@@ -129,21 +129,21 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        FontFamily="Fonts/#Lato-Regular"
-                       FontWeight="Medium"
-                       FontSize="14"
+                       FontWeight="Light"
+                       FontSize="12"
                        Width="300"
                        Background="#1F1F2D"
                        Foreground="#FFFFFF"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
+            <StackPanel Orientation="Horizontal" Margin="10,0,10,10">
                 <TextBlock Text="Container"
                        Width="80"
                        Foreground="White"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        FontFamily="Fonts/#Lato-Regular"
-                       FontWeight="Medium"
+                       FontWeight="Light"
                        FontSize="14"
                        Margin="5,0,15,0"/>
 
@@ -151,8 +151,8 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        FontFamily="Fonts/#Lato-Regular"
-                       FontWeight="Medium"
-                       FontSize="14"
+                       FontWeight="Light"
+                       FontSize="12"
                        Width="300"
                        Background="#1F1F2D"
                        Foreground="#FFFFFF"/>
@@ -161,13 +161,13 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
-                <TextBlock Text="Check user account status"
-                       Width="165"
+                <TextBlock Text="Get user status and full name"
+                       Width="175"
                        Foreground="White"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        FontFamily="Fonts/#Lato-Regular"
-                       FontWeight="Medium"
+                       FontWeight="Light"
                        FontSize="14"
                        Margin="5,0,15,0"/>
                 
@@ -184,7 +184,7 @@
                 Content="Select Directories" 
                 Click="addFolderButton_Click"
                 Foreground="#FFFFFF"
-                Margin="10,10,10,10">
+                Margin="10,35,10,10">
 
                     <Button.Style>
                         <Style TargetType="Button">
