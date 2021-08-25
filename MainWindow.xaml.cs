@@ -39,9 +39,9 @@ namespace Sharing_Inspector
 
             if (Domain.domainAvailability == false)
             {
-                MessageBox.Show("Domain is not available. Program will not work correctly.", 
-                    "Warning", 
-                    MessageBoxButton.OK, 
+                MessageBox.Show("Domain is not available. Program will not work correctly.",
+                    "Warning",
+                    MessageBoxButton.OK,
                     MessageBoxImage.Warning);
             }
         }
@@ -51,65 +51,72 @@ namespace Sharing_Inspector
             var watch = System.Diagnostics.Stopwatch.StartNew();
 
             ArrayList folderDataCollection = this.folderProps.ShowAccessGroupsOfParentOnly(domainPrefix.Text);
-            int folderDataCollectionLength = folderDataCollection.Count -1;
-            
+            decimal folderDataCollectionLength = folderDataCollection.Count;
+            decimal percentOfCompletion = 0;
 
             foreach (string[] folderArray in folderDataCollection)
             {
-                Progress.Text = "Left: " + folderDataCollectionLength.ToString();
+
+                ArrayList membersOfThisGroup;
 
                 try
                 {
-                    ArrayList membersOfThisGroup = await Task.Run(() => Domain.ShowMembers(folderArray[0]));
-
-
-                    List<Task<string[]>> tasks = new List<Task<string[]>>();
-
-                        foreach (string member in membersOfThisGroup)
-                        {
-                            string[] userAccountInfo = new string[3];
-                            tasks.Add(Task.Run(() => Domain.AccountStatus(member)));
-                        }
-
-                        var results = await Task.WhenAll(tasks);
-                        
-                        
-                        foreach (var result in results)
-                        {
-                            if (checkAccountStatus.IsChecked == true)
-                            {
-                                // userAccountInfo = await Task.Run(() => Domain.AccountStatus(member));
-                                AccessRecord Record = new AccessRecord(folderArray[1], folderArray[0], result[2], result[0], result[1]);
-                                AccessData.Add(Record);
-                                accessData.Text += "\n" + Record.LocalPath + "," + Record.AdGroupName + "," + Record.SamAccountName + "," + Record.FullName + "," + Record.Status;
-                            }
-                            else
-                            {
-                                AccessRecord Record = new AccessRecord(folderArray[1], folderArray[0], result[2]);
-                                AccessData.Add(Record);
-                                accessData.Text += "\n" + Record.LocalPath + "," + Record.AdGroupName + "," + Record.SamAccountName;
-                            }
-                        }
-
-
-                    
-
-                    Domain.DisposeContext();
+                    membersOfThisGroup = await Task.Run(() => Domain.ShowMembers(folderArray[0]));
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Failed to query a domain.", 
+                    MessageBox.Show("Failed to query a domain.",
                         "Failure",
-                        MessageBoxButton.OK, 
+                        MessageBoxButton.OK,
                         MessageBoxImage.Error);
                     break;
                 }
-                folderDataCollectionLength -= 1;
-            }
 
+
+                if (checkAccountStatus.IsChecked == true)
+                {
+                    List<Task<string[]>> tasks = new List<Task<string[]>>();
+
+                    foreach (string member in membersOfThisGroup)
+                    {
+                        string[] userAccountInfo = new string[3];
+                        tasks.Add(Task.Run(() => Domain.AccountStatus(member)));
+                    }
+
+                    var results = await Task.WhenAll(tasks);
+
+                    foreach (var result in results)
+                    {
+                        
+                        AccessRecord Record = new AccessRecord(folderArray[1], folderArray[0], result[2], result[0], result[1]);
+                        AccessData.Add(Record);
+                        accessData.Text += "\n" + Record.LocalPath + "," + Record.AdGroupName + "," + Record.SamAccountName + "," + Record.FullName + "," + Record.Status;
+                    }
+
+                    Domain.DisposeContext();
+
+                }
+                else
+                {
+
+                    foreach (string member in membersOfThisGroup)
+                    {
+                        AccessRecord Record = new AccessRecord(folderArray[1], folderArray[0], member);
+                        AccessData.Add(Record);
+                        accessData.Text += "\n" + Record.LocalPath + "," + Record.AdGroupName + "," + Record.SamAccountName;
+                    }
+                }
+                percentOfCompletion += 1;
+                // Progress.Text = ((percentOfCompletion / folderDataCollectionLength) * 100).ToString() + "%";
+                decimal progress = decimal.Round(((percentOfCompletion / folderDataCollectionLength) * 100), 0);
+                Progress.Text = progress.ToString() + "%";
+            }
+            
             watch.Stop();
-            Progress.Text += " time: " + watch.ElapsedMilliseconds.ToString();
+            Progress.Text += " (" + (watch.ElapsedMilliseconds / 1000) + " sec.)";
         }
+
+
 
         public static string OpenFileBrowserDialog(bool multiselect)
         {
@@ -161,7 +168,7 @@ namespace Sharing_Inspector
 
             if (checkAccountStatus.IsChecked == true)
             {
-               dialogResult = MessageBox.Show("This will take more time to display results. Do you want to continue?", 
+               dialogResult = MessageBox.Show("It can take more time to display results for large set of folders. \n Do you want to continue?", 
                    "Information", 
                    MessageBoxButton.YesNo, 
                    MessageBoxImage.Information);

@@ -4,6 +4,7 @@ using System.Windows.Forms;
 
 namespace Sharing_Inspector
 {
+    //source: https://stackoverflow.com/questions/12261598/browse-multiple-folders-using-folderbrowserdialog-in-windows-application
     public class FolderSelectDialog
     {
         System.Windows.Forms.OpenFileDialog ofd = null;
