@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -45,26 +46,27 @@ namespace Sharing_Inspector
             }
         }
 
-        private void submitButton_Click(object sender, RoutedEventArgs e)
+        private async void submitButton_Click(object sender, RoutedEventArgs e)
         {
-
-
             ArrayList folderDataCollection = this.folderProps.ShowAccessGroupsOfParentOnly(domainPrefix.Text);
+            int folderDataCollectionLength = folderDataCollection.Count -1;
+            
 
             foreach (string[] folderArray in folderDataCollection)
             {
+                Progress.Text = "Items left to inspect: " + (folderDataCollectionLength).ToString();
 
                 try
                 {
-                    ArrayList membersOfThisGroup = Domain.ShowMembers(folderArray[0]);
-
+                    ArrayList membersOfThisGroup = await Task.Run(() => Domain.ShowMembers(folderArray[0]));
+                    
                     foreach (string member in membersOfThisGroup)
                     {
                         string[] userAccountInfo = new string[2];
 
                         if (checkAccountStatus.IsChecked == true)
                         {
-                            userAccountInfo = Domain.AccountStatus(member);
+                            userAccountInfo = await Task.Run(() => Domain.AccountStatus(member));
                             AccessRecord Record = new AccessRecord(folderArray[1], folderArray[0], member, userAccountInfo[0], userAccountInfo[1]);
                             AccessData.Add(Record);
                             accessData.Text += "\n" + Record.LocalPath + "," + Record.AdGroupName + "," + Record.SamAccountName + "," + Record.FullName + "," + Record.Status;
@@ -75,13 +77,6 @@ namespace Sharing_Inspector
                             AccessData.Add(Record);
                             accessData.Text += "\n" + Record.LocalPath + "," + Record.AdGroupName + "," + Record.SamAccountName;
                         }
-                        
-
-                        //accessData.Text += "\n" + folderArray[1] + " ; " + folderArray[0] + " ; " + member + " ; " + userAccountStatus;
-                        //AccessData.Add(new AccessRecord(folderArray[1], folderArray[0], member, userAccountStatus));
-
-
-
                     }
 
                     Domain.DisposeContext();
@@ -94,6 +89,7 @@ namespace Sharing_Inspector
                         MessageBoxImage.Error);
                     break;
                 }
+                folderDataCollectionLength -= 1;
             }
         }
 
