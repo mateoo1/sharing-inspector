@@ -91,9 +91,10 @@ namespace Sharing_Inspector
         {
             UserPrincipal usr = UserPrincipal.FindByIdentity(ctx, IdentityType.SamAccountName, samAccontName);
 
-            string[] userData = new string[2];
+            string[] userData = new string[3];
 
             userData[0] = usr.GivenName + " " + usr.Surname;
+            userData[2] = usr.Name;
 
             if (usr.Enabled == true)
             {

@@ -48,36 +48,51 @@ namespace Sharing_Inspector
 
         private async void submitButton_Click(object sender, RoutedEventArgs e)
         {
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+
             ArrayList folderDataCollection = this.folderProps.ShowAccessGroupsOfParentOnly(domainPrefix.Text);
             int folderDataCollectionLength = folderDataCollection.Count -1;
             
 
             foreach (string[] folderArray in folderDataCollection)
             {
-                Progress.Text = "Items left to inspect: " + (folderDataCollectionLength).ToString();
+                Progress.Text = "Left: " + folderDataCollectionLength.ToString();
 
                 try
                 {
                     ArrayList membersOfThisGroup = await Task.Run(() => Domain.ShowMembers(folderArray[0]));
-                    
-                    foreach (string member in membersOfThisGroup)
-                    {
-                        string[] userAccountInfo = new string[2];
 
-                        if (checkAccountStatus.IsChecked == true)
+
+                    List<Task<string[]>> tasks = new List<Task<string[]>>();
+
+                        foreach (string member in membersOfThisGroup)
                         {
-                            userAccountInfo = await Task.Run(() => Domain.AccountStatus(member));
-                            AccessRecord Record = new AccessRecord(folderArray[1], folderArray[0], member, userAccountInfo[0], userAccountInfo[1]);
-                            AccessData.Add(Record);
-                            accessData.Text += "\n" + Record.LocalPath + "," + Record.AdGroupName + "," + Record.SamAccountName + "," + Record.FullName + "," + Record.Status;
+                            string[] userAccountInfo = new string[3];
+                            tasks.Add(Task.Run(() => Domain.AccountStatus(member)));
                         }
-                        else
+
+                        var results = await Task.WhenAll(tasks);
+                        
+                        
+                        foreach (var result in results)
                         {
-                            AccessRecord Record = new AccessRecord(folderArray[1], folderArray[0], member);
-                            AccessData.Add(Record);
-                            accessData.Text += "\n" + Record.LocalPath + "," + Record.AdGroupName + "," + Record.SamAccountName;
+                            if (checkAccountStatus.IsChecked == true)
+                            {
+                                // userAccountInfo = await Task.Run(() => Domain.AccountStatus(member));
+                                AccessRecord Record = new AccessRecord(folderArray[1], folderArray[0], result[2], result[0], result[1]);
+                                AccessData.Add(Record);
+                                accessData.Text += "\n" + Record.LocalPath + "," + Record.AdGroupName + "," + Record.SamAccountName + "," + Record.FullName + "," + Record.Status;
+                            }
+                            else
+                            {
+                                AccessRecord Record = new AccessRecord(folderArray[1], folderArray[0], result[2]);
+                                AccessData.Add(Record);
+                                accessData.Text += "\n" + Record.LocalPath + "," + Record.AdGroupName + "," + Record.SamAccountName;
+                            }
                         }
-                    }
+
+
+                    
 
                     Domain.DisposeContext();
                 }
@@ -91,6 +106,9 @@ namespace Sharing_Inspector
                 }
                 folderDataCollectionLength -= 1;
             }
+
+            watch.Stop();
+            Progress.Text += " time: " + watch.ElapsedMilliseconds.ToString();
         }
 
         public static string OpenFileBrowserDialog(bool multiselect)
