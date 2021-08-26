@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sharing_Inspector"
         mc:Ignorable="d"
-        Title="Sharing Inspector" Height="500" Width="900"
+        Title="Sharing Inspector" Height="500" Width="1000"
         WindowStyle="None"
         ResizeMode="CanMinimize"
         Background="#1F1F2D">
@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="450"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
@@ -90,7 +90,8 @@
 
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="10,20,10,10">
+            <StackPanel Orientation="Horizontal" 
+                        Margin="10,20,10,10">
 
                 <TextBlock Text="Domain"
                        Width="80"
@@ -113,7 +114,8 @@
                        Foreground="#FFFFFF"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="10,0,10,10">
+            <StackPanel Orientation="Horizontal" 
+                        Margin="10,0,10,10">
                 <TextBlock Text="Prefix"
                        Width="80"
                        Foreground="White"
@@ -136,7 +138,9 @@
                        Foreground="#FFFFFF"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="10,0,10,10">
+            <StackPanel Orientation="Horizontal" 
+                        Margin="10,0,10,10">
+                
                 <TextBlock Text="Container"
                        Width="80"
                        Foreground="White"
@@ -160,7 +164,9 @@
                 
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
+            <StackPanel Orientation="Horizontal" 
+                        Margin="10,10,10,10">
+                
                 <TextBlock Text="Get user status and full name"
                        Width="175"
                        Foreground="White"
@@ -214,8 +220,12 @@
 
             </StackPanel>
 
-            <TextBox x:Name="Folders"
+            <StackPanel Orientation="Horizontal"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left">
+                <TextBox x:Name="Folders"
                    Height="100"
+                     Width="400"
                    ScrollViewer.HorizontalScrollBarVisibility="Auto"
                    ScrollViewer.VerticalScrollBarVisibility="Auto"
                    AcceptsReturn="True"
@@ -223,6 +233,8 @@
                    Foreground="#FFFFFF"
                    FontFamily="Fonts/#Lato-Regular"
                    Margin="10,0,10,0"/>
+            </StackPanel>
+
         </StackPanel>
         
         

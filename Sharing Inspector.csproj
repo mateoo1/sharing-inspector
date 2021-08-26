@@ -50,7 +50,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>glass.ico</ApplicationIcon>
+    <ApplicationIcon>looking-glass.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -149,6 +149,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="glass.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="looking-glass.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

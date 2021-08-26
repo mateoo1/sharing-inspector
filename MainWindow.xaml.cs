@@ -48,11 +48,12 @@ namespace Sharing_Inspector
 
         private async void submitButton_Click(object sender, RoutedEventArgs e)
         {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
+            //var watch = System.Diagnostics.Stopwatch.StartNew();
 
             ArrayList folderDataCollection = this.folderProps.ShowAccessGroupsOfParentOnly(domainPrefix.Text);
             decimal folderDataCollectionLength = folderDataCollection.Count;
             decimal percentOfCompletion = 0;
+            Progress.Text += "";
 
             foreach (string[] folderArray in folderDataCollection)
             {
@@ -112,8 +113,8 @@ namespace Sharing_Inspector
                 Progress.Text = progress.ToString() + "%";
             }
             
-            watch.Stop();
-            Progress.Text += " (" + (watch.ElapsedMilliseconds / 1000) + " sec.)";
+            //watch.Stop();
+            //Progress.Text += " (" + (watch.ElapsedMilliseconds / 1000) + " sec.)";
         }
 
 
@@ -164,30 +165,43 @@ namespace Sharing_Inspector
         private void checkAccountStatus_click(object sender, RoutedEventArgs e)
         {
 
-            MessageBoxResult dialogResult;
+            //MessageBoxResult dialogResult;
+
+            //if (checkAccountStatus.IsChecked == true)
+            //{
+            //   dialogResult = MessageBox.Show("It can take more time to display results for large set of folders. \n Do you want to continue?", 
+            //       "Information", 
+            //       MessageBoxButton.YesNo, 
+            //       MessageBoxImage.Information);
+
+            //    if (dialogResult == MessageBoxResult.No)
+            //    {
+            //        checkAccountStatus.IsChecked = false;
+                    
+            //    }
+            //    else
+            //    {
+            //        checkAccountStatus.IsChecked = true;
+            //        accessData.Text = "LocalPath,AdGroupName,SamAccountName,FullName,Status";
+            //    }
+            //}
+            //else
+            //{
+            //    accessData.Text = "LocalPath,AdGroupName,SamAccountName";
+            //}
+
 
             if (checkAccountStatus.IsChecked == true)
             {
-               dialogResult = MessageBox.Show("It can take more time to display results for large set of folders. \n Do you want to continue?", 
-                   "Information", 
-                   MessageBoxButton.YesNo, 
-                   MessageBoxImage.Information);
-
-                if (dialogResult == MessageBoxResult.No)
-                {
-                    checkAccountStatus.IsChecked = false;
-                    
-                }
-                else
-                {
-                    checkAccountStatus.IsChecked = true;
-                    accessData.Text = "LocalPath,AdGroupName,SamAccountName,FullName,Status";
-                }
+                accessData.Text = "LocalPath,AdGroupName,SamAccountName,FullName,Status";
             }
             else
             {
                 accessData.Text = "LocalPath,AdGroupName,SamAccountName";
             }
+
+
+
         }
     }
 }
