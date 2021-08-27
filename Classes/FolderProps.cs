@@ -29,11 +29,11 @@ namespace Sharing_Inspector
                 {
                     DirectoryInfo dirInfo = new DirectoryInfo(folder);
                     DirectorySecurity folderSec = dirInfo.GetAccessControl();
-                    var authRuleColl = folderSec.GetAccessRules(true, true, typeof(NTAccount));
+                    var authRuleCollection = folderSec.GetAccessRules(true, true, typeof(NTAccount));
 
-                    foreach (FileSystemAccessRule dsaRule in authRuleColl)
+                    foreach (FileSystemAccessRule authRule in authRuleCollection)
                     {
-                        string group = dsaRule.IdentityReference.ToString();
+                        string group = authRule.IdentityReference.ToString();
 
                         if (group.Contains(prefix))
                         {
@@ -44,7 +44,6 @@ namespace Sharing_Inspector
                             groups.Add(folderInfoArray);
 
                         }
-
                     }
                 }
 
@@ -53,6 +52,37 @@ namespace Sharing_Inspector
                     MessageBox.Show("Filed to get access groups. Verify folder(s) path(s) or run program as Administrator.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
                     //throw;
+                }
+            }
+            return groups;
+        }
+
+        public ArrayList ShowAccessGroupsOfChilds(string prefix)
+        {
+            ArrayList groups = new ArrayList();
+
+            foreach (var item in this.foldersTextBox)
+            {
+                var childDirsCollection = new DirectoryInfo(item).EnumerateDirectories("*", SearchOption.AllDirectories);
+
+                foreach (var child in childDirsCollection)
+                {
+                    DirectorySecurity folderSec = child.GetAccessControl();
+                    var authRuleCollection = folderSec.GetAccessRules(true, true, typeof(NTAccount));
+
+                    foreach (FileSystemAccessRule authRule in authRuleCollection)
+                    {
+                        string group = authRule.IdentityReference.ToString();
+
+                        if (group.Contains(prefix))
+                        {
+                            string[] folderInfoArray = new string[3];
+                            folderInfoArray[0] = group.Replace(prefix, "");
+                            folderInfoArray[1] = child.Name;
+                            folderInfoArray[2] = child.FullName;
+                            groups.Add(folderInfoArray);
+                        }
+                    }
                 }
             }
             return groups;

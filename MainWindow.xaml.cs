@@ -55,6 +55,12 @@ namespace Sharing_Inspector
             //var watch = System.Diagnostics.Stopwatch.StartNew();
 
             ArrayList folderDataCollection = this.folderProps.ShowAccessGroupsOfParentOnly(domainPrefix.Text);
+
+            if (Subfolders.IsChecked == true)
+            {
+                folderDataCollection.AddRange(this.folderProps.ShowAccessGroupsOfChilds(domainPrefix.Text));
+            }
+            
             decimal folderDataCollectionLength = folderDataCollection.Count;
             decimal completedItems = 0;
             Progress.Text += "";
@@ -203,7 +209,8 @@ namespace Sharing_Inspector
 
         private void CSV_Click(object sender, RoutedEventArgs e)
         {
-            File.WriteAllText(@"Inspection_results.csv", accessData.Text);
+            File.WriteAllText(@"Inspection.csv", accessData.Text);
+            Saved.Text = @"Data saved to CSV file. (.\Inspection.csv)";
         }
 
         private void JSON_Click(object sender, RoutedEventArgs e)
@@ -211,17 +218,25 @@ namespace Sharing_Inspector
             JsonSerializerOptions options = new JsonSerializerOptions();
             options.WriteIndented = true;
             string jsonData = JsonSerializer.Serialize(AccessData, options);
-            File.WriteAllText(@"Inspection_results.json", jsonData);
+            File.WriteAllText(@"Inspection.json", jsonData);
+            Saved.Text = @"Data saved to JSON file. (.\Inspection.json)";
         }
 
         private void XML_Click(object sender, RoutedEventArgs e)
         {
             XmlSerializer XMLdata = new XmlSerializer(AccessData.GetType());
             XMLdata.Serialize(Console.Out, AccessData);
-            string path = Environment.CurrentDirectory + "//Inspection_results.xml";
+            string path = Environment.CurrentDirectory + "//Inspection.xml";
             FileStream file = File.Create(path);
             XMLdata.Serialize(file, AccessData);
             file.Close();
+            Saved.Text = @"Data saved to XML file. (.\Inspection.xml)"; 
+        }
+
+        private void Clear_Click(object sender, RoutedEventArgs e)
+        {
+            accessData.Text = "LocalPath,FullName,AdGroupName,SamAccountName,Status";
+            AccessData = null;
         }
     }
 }
