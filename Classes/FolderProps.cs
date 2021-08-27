@@ -37,9 +37,10 @@ namespace Sharing_Inspector
 
                         if (group.Contains(prefix))
                         {
-                            string[] folderInfoArray = new string[2];
+                            string[] folderInfoArray = new string[3];
                             folderInfoArray[0] = group.Replace(prefix, "");
                             folderInfoArray[1] = dirInfo.Name;
+                            folderInfoArray[2] = dirInfo.FullName;
                             groups.Add(folderInfoArray);
 
                         }

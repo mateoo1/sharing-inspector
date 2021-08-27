@@ -92,9 +92,9 @@ namespace Sharing_Inspector
                         folderArray[0] = "Assigned locally";
                     }
 
-                    AccessRecord Record = new AccessRecord(folderArray[1], result[0], folderArray[0], result[2], result[1]);
+                    AccessRecord Record = new AccessRecord(folderArray[1], result[0], folderArray[0], result[2], result[1], folderArray[2]);
                     AccessData.Add(Record);
-                    accessData.Text += "\n" + Record.LocalPath + "," + Record.FullName + "," + Record.AdGroupName + "," + Record.SamAccountName + "," + Record.Status;
+                    accessData.Text += "\n" + Record.LocalPath + "," + Record.FullName + "," + Record.AdGroupName + "," + Record.SamAccountName + "," + Record.Status + "," + Record.FullPath;
                 }
 
                 completedItems += 1;
