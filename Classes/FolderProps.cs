@@ -42,17 +42,14 @@ namespace Sharing_Inspector
                             folderInfoArray[1] = dirInfo.Name;
                             groups.Add(folderInfoArray);
 
-                            /*
-                            string[] groupSplitArr = groupFullName.Split(new string[] { @"\" }, StringSplitOptions.None);
-                            folderInfoArray[0] = groupSplitArr[1];
-                            */
                         }
+
                     }
                 }
 
                 catch (Exception)
                 {
-                    MessageBox.Show("Filed to get access groups. Check folder(s) path(s).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Filed to get access groups. Verify folder(s) path(s) or run program as Administrator.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
                     //throw;
                 }

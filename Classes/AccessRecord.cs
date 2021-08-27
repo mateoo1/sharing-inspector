@@ -1,28 +1,23 @@
 ﻿namespace Sharing_Inspector
 {
-    class AccessRecord
+    public class AccessRecord
     {
 
-        public string LocalPath;
-        public string AdGroupName;
-        public string SamAccountName;
-        public string FullName;
-        public string Status;
+        public string LocalPath { get; set; }
+        public string FullName { get; set; }
+        public string AdGroupName { get; set; }
+        public string SamAccountName { get; set; }
+        public string Status { get; set; }
 
-        public AccessRecord(string param1, string param2, string param3)
-        {
-            this.LocalPath = param1;
-            this.AdGroupName = param2;
-            this.SamAccountName = param3;
-        }
+        public AccessRecord() { }
 
-        public AccessRecord(string param1, string param2, string param3, string param4, string param5)
+        public AccessRecord(string LocalPath, string FullName, string AdGroupName, string SamAccountName, string Status)
         {
-            this.LocalPath = param1;
-            this.AdGroupName = param2;
-            this.SamAccountName = param3;
-            this.FullName = param4;
-            this.Status = param5;
+            this.LocalPath = LocalPath;
+            this.FullName = FullName;
+            this.AdGroupName = AdGroupName;
+            this.SamAccountName = SamAccountName;
+            this.Status = Status;
         }
     }
 }

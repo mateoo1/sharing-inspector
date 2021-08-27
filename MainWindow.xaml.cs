@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Xml.Serialization;
+
 
 namespace Sharing_Inspector
 {
@@ -35,7 +39,7 @@ namespace Sharing_Inspector
             domainPrefix.Text = Domain.domainPrefix;
             ContainerPath.Text = Domain.ContainerPath;
 
-            accessData.Text = "LocalPath,AdGroupName,SamAccountName";
+            accessData.Text = "LocalPath,FullName,AdGroupName,SamAccountName,Status";
 
             if (Domain.domainAvailability == false)
             {
@@ -52,12 +56,11 @@ namespace Sharing_Inspector
 
             ArrayList folderDataCollection = this.folderProps.ShowAccessGroupsOfParentOnly(domainPrefix.Text);
             decimal folderDataCollectionLength = folderDataCollection.Count;
-            decimal percentOfCompletion = 0;
+            decimal completedItems = 0;
             Progress.Text += "";
 
             foreach (string[] folderArray in folderDataCollection)
             {
-
                 ArrayList membersOfThisGroup;
 
                 try
@@ -66,53 +69,47 @@ namespace Sharing_Inspector
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Failed to query a domain.",
-                        "Failure",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
+                    MessageBox.Show("Failed to query a domain.", "Failure", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
                 }
 
+                // AD account details
+                List<Task<string[]>> tasks = new List<Task<string[]>>();
 
-                if (checkAccountStatus.IsChecked == true)
+                foreach (string member in membersOfThisGroup)
                 {
-                    List<Task<string[]>> tasks = new List<Task<string[]>>();
+                    string[] userAccountInfo = new string[3];
+                    tasks.Add(Task.Run(() => Domain.AccountStatus(member)));
+                }
 
-                    foreach (string member in membersOfThisGroup)
+                var results = await Task.WhenAll(tasks);
+                //
+
+                foreach (var result in results)
+                {
+                    if (folderArray[0] == result[2])
                     {
-                        string[] userAccountInfo = new string[3];
-                        tasks.Add(Task.Run(() => Domain.AccountStatus(member)));
+                        folderArray[0] = "Assigned locally";
                     }
 
-                    var results = await Task.WhenAll(tasks);
+                    AccessRecord Record = new AccessRecord(folderArray[1], result[0], folderArray[0], result[2], result[1]);
+                    AccessData.Add(Record);
+                    accessData.Text += "\n" + Record.LocalPath + "," + Record.FullName + "," + Record.AdGroupName + "," + Record.SamAccountName + "," + Record.Status;
+                }
 
-                    foreach (var result in results)
-                    {
-                        
-                        AccessRecord Record = new AccessRecord(folderArray[1], folderArray[0], result[2], result[0], result[1]);
-                        AccessData.Add(Record);
-                        accessData.Text += "\n" + Record.LocalPath + "," + Record.AdGroupName + "," + Record.SamAccountName + "," + Record.FullName + "," + Record.Status;
-                    }
+                completedItems += 1;
 
-                    Domain.DisposeContext();
-
+                if (completedItems == folderDataCollectionLength)
+                {
+                    Progress.Text = "Completed!";
                 }
                 else
                 {
-
-                    foreach (string member in membersOfThisGroup)
-                    {
-                        AccessRecord Record = new AccessRecord(folderArray[1], folderArray[0], member);
-                        AccessData.Add(Record);
-                        accessData.Text += "\n" + Record.LocalPath + "," + Record.AdGroupName + "," + Record.SamAccountName;
-                    }
+                    Progress.Text = decimal.Round(((completedItems / folderDataCollectionLength) * 100), 0).ToString() + "%";
                 }
-                percentOfCompletion += 1;
-                // Progress.Text = ((percentOfCompletion / folderDataCollectionLength) * 100).ToString() + "%";
-                decimal progress = decimal.Round(((percentOfCompletion / folderDataCollectionLength) * 100), 0);
-                Progress.Text = progress.ToString() + "%";
             }
-            
+
+            Domain.DisposeContext();
             //watch.Stop();
             //Progress.Text += " (" + (watch.ElapsedMilliseconds / 1000) + " sec.)";
         }
@@ -191,17 +188,40 @@ namespace Sharing_Inspector
             //}
 
 
-            if (checkAccountStatus.IsChecked == true)
-            {
-                accessData.Text = "LocalPath,AdGroupName,SamAccountName,FullName,Status";
-            }
-            else
-            {
-                accessData.Text = "LocalPath,AdGroupName,SamAccountName";
-            }
+            //if (checkAccountStatus.IsChecked == true)
+            //{
+            //    accessData.Text = "LocalPath,FullName,AdGroupName,SamAccountName,Status";
+            //}
+            //else
+            //{
+            //    accessData.Text = "LocalPath,AdGroupName,SamAccountName";
+            //}
 
 
 
+        }
+
+        private void CSV_Click(object sender, RoutedEventArgs e)
+        {
+            File.WriteAllText(@"Inspection_results.csv", accessData.Text);
+        }
+
+        private void JSON_Click(object sender, RoutedEventArgs e)
+        {
+            JsonSerializerOptions options = new JsonSerializerOptions();
+            options.WriteIndented = true;
+            string jsonData = JsonSerializer.Serialize(AccessData, options);
+            File.WriteAllText(@"Inspection_results.json", jsonData);
+        }
+
+        private void XML_Click(object sender, RoutedEventArgs e)
+        {
+            XmlSerializer XMLdata = new XmlSerializer(AccessData.GetType());
+            XMLdata.Serialize(Console.Out, AccessData);
+            string path = Environment.CurrentDirectory + "//Inspection_results.xml";
+            FileStream file = File.Create(path);
+            XMLdata.Serialize(file, AccessData);
+            file.Close();
         }
     }
 }

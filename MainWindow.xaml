@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sharing_Inspector"
         mc:Ignorable="d"
-        Title="Sharing Inspector" Height="500" Width="1000"
+        Title="Sharing Inspector" Height="550" Width="1000"
         WindowStyle="None"
         ResizeMode="CanMinimize"
         Background="#1F1F2D">
@@ -40,37 +40,83 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="Sharing Inspector"
-                       Foreground="White"
+                       Foreground="#FFFFFF"
                        Grid.Column="0"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
-                       FontFamily="Fonts/#Lato-Regular"
-                       FontWeight="Medium"
+                       FontFamily="Fonts/#Lato-Bold"
+                       FontWeight="Bold"
                        FontSize="16"/>
 
             <Button Grid.Column="9" 
                     Name="MinimizeButton" 
                     Content="-"
-                    Foreground="White"
-                    Background="#2daeb9"
+                    Foreground="#FFFFFF"
                     FontSize="10"
                     FontFamily="Fonts/#Lato-Regular"
                     FontWeight="Medium"
                     Margin="20,10,1,10"
                     BorderThickness="0"
-                    Click="MinimizeButton_Click" />
+                    Click="MinimizeButton_Click">
+
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#2daeb9"/>
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF3FBCC7"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="5"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+
+            </Button>
 
             <Button Grid.Column="10" 
                     Name="CloseButton" 
                     Content="X"
-                    Foreground="White"
-                    Background="#e35948"
+                    Foreground="#FFFFFF"
                     FontSize="10"
                     FontFamily="Fonts/#Lato-Regular"
                     FontWeight="Medium"
                     Margin="3,10,20,10"
                     BorderThickness="0"
-                    Click="CloseButton_Click" />
+                    Click="CloseButton_Click">
+
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#e35948"/>
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FFEC7061"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="5"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+                
+            </Button>
 
         </Grid>
 
@@ -95,7 +141,7 @@
 
                 <TextBlock Text="Domain"
                        Width="80"
-                       Foreground="White"
+                       Foreground="#FFFFFF"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        FontFamily="Fonts/#Lato-Regular"
@@ -111,14 +157,14 @@
                        FontSize="12"
                        Width="300"
                        Background="#1F1F2D"
-                       Foreground="#FFFFFF"/>
+                       Foreground="#CFCFCF"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" 
                         Margin="10,0,10,10">
                 <TextBlock Text="Prefix"
                        Width="80"
-                       Foreground="White"
+                       Foreground="#FFFFFF"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        FontFamily="Fonts/#Lato-Regular"
@@ -135,7 +181,7 @@
                        FontSize="12"
                        Width="300"
                        Background="#1F1F2D"
-                       Foreground="#FFFFFF"/>
+                       Foreground="#CFCFCF"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" 
@@ -143,7 +189,7 @@
                 
                 <TextBlock Text="Container"
                        Width="80"
-                       Foreground="White"
+                       Foreground="#FFFFFF"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        FontFamily="Fonts/#Lato-Regular"
@@ -159,7 +205,7 @@
                        FontSize="12"
                        Width="300"
                        Background="#1F1F2D"
-                       Foreground="#FFFFFF"/>
+                       Foreground="#CFCFCF"/>
 
                 
             </StackPanel>
@@ -169,7 +215,7 @@
                 
                 <TextBlock Text="Get user status and full name"
                        Width="175"
-                       Foreground="White"
+                       Foreground="#FFFFFF"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        FontFamily="Fonts/#Lato-Regular"
@@ -186,11 +232,31 @@
 
             <StackPanel Orientation="Horizontal">
 
-                <Button x:Name="addFolderButton" 
-                Content="Select Directories" 
-                Click="addFolderButton_Click"
-                Foreground="#FFFFFF"
-                Margin="10,35,10,10">
+
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left">
+                <TextBox x:Name="Folders"
+                   Height="160"
+                   Width="400"
+                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                   ScrollViewer.VerticalScrollBarVisibility="Auto"
+                   AcceptsReturn="True"
+                   Background="#1F1F2D"
+                   Foreground="#cfcfcf"
+                   FontFamily="Fonts/#Lato-Regular"
+                   Margin="10,10,10,0"/>
+
+
+
+                <Button x:Name="addFolderButton"
+                        HorizontalAlignment="Left"
+                        Content="Browse" 
+                        Click="addFolderButton_Click"
+                        Foreground="#FFFFFF"
+                        Margin="10,10,10,10">
 
                     <Button.Style>
                         <Style TargetType="Button">
@@ -211,29 +277,16 @@
                                 CornerRadius="11"
                                 Background="{TemplateBinding Background}">
                                 <ContentPresenter VerticalAlignment="Center"
-                                                  HorizontalAlignment="Center"/>
+                                              HorizontalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
 
                 </Button>
-
+                
             </StackPanel>
-
-            <StackPanel Orientation="Horizontal"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Left">
-                <TextBox x:Name="Folders"
-                   Height="100"
-                     Width="400"
-                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                   ScrollViewer.VerticalScrollBarVisibility="Auto"
-                   AcceptsReturn="True"
-                   Background="#1F1F2D"
-                   Foreground="#FFFFFF"
-                   FontFamily="Fonts/#Lato-Regular"
-                   Margin="10,0,10,0"/>
-            </StackPanel>
+            
+            
 
         </StackPanel>
         
@@ -286,7 +339,7 @@
                 <TextBlock x:Name="Progress"
                        Text=""
                        Width="175"
-                       Foreground="White"
+                       Foreground="#FFFFFF"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        FontFamily="Fonts/#Lato-Regular"
@@ -301,11 +354,121 @@
                  Height="270"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
-                 FontSize="11" 
+                 FontSize="11.5" 
                  Background="#1F1F2D"
-                 Foreground="#FFFFFF"
+                 Foreground="#CFCFCF"
                  FontFamily="Fonts/#Lato-Regular"/>
 
+            <!--TextBlock Text="Save as: "
+                           Foreground="#CFCFCF"
+                           VerticalAlignment="Center"
+                           FontFamily="Fonts/#Lato-Regular"
+                           FontWeight="Light"
+                           FontSize="16"
+                           Margin="10,10,10,10"/-->
+
+            <!--Save As area-->
+            <StackPanel Orientation="Horizontal">
+
+                <Button x:Name="CSV" 
+                        Content="CSV" 
+                        Click="CSV_Click"
+                        Foreground="#FFFFFF"
+                        Margin="10,10,10,10">
+
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="TextElement.FontFamily" Value="Fonts/#Lato-Bold"/>
+                            <Setter Property="Background" Value="#e35948"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FFD63926"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Width="80" Height="25"
+                                CornerRadius="11"
+                                Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+
+                </Button>
+
+                <Button x:Name="JSON" 
+                        Content="JSON" 
+                        Click="JSON_Click"
+                        Foreground="#FFFFFF"
+                        Margin="10,10,10,10">
+
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="TextElement.FontFamily" Value="Fonts/#Lato-Bold"/>
+                            <Setter Property="Background" Value="#e35948"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FFD63926"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Width="80" Height="25"
+                                CornerRadius="11"
+                                Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+
+                </Button>
+
+                <Button x:Name="XML" 
+                        Content="XML" 
+                        Click="XML_Click"
+                        Foreground="#FFFFFF"
+                        Margin="10,10,10,10">
+
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="TextElement.FontFamily" Value="Fonts/#Lato-Bold"/>
+                            <Setter Property="Background" Value="#e35948"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FFD63926"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Width="80" Height="25"
+                                CornerRadius="11"
+                                Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+
+                </Button>
+
+            </StackPanel>
+
         </StackPanel>
+
     </Grid>
 </Window>

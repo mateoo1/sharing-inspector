@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.DirectoryServices.AccountManagement;
 
 namespace Sharing_Inspector
@@ -63,28 +64,26 @@ namespace Sharing_Inspector
         }
         */
 
-        public ArrayList ShowMembers(string groupName)
+        public ArrayList ShowMembers(string wantedGroup)
         {
-            ArrayList accesslist = new ArrayList();
-            GroupPrincipal grp = GroupPrincipal.FindByIdentity(ctx, IdentityType.Name, groupName);
+            ArrayList listOfUsersAssignedToThisGroup = new ArrayList();
+            GroupPrincipal ADGroup = GroupPrincipal.FindByIdentity(ctx, IdentityType.Name, wantedGroup);
 
-            if (grp != null)
+            if (ADGroup != null)
             {
-                foreach (Principal p in grp.GetMembers(true))
+                foreach (Principal p in ADGroup.GetMembers(true))
                 {
-                    string memberName = p.Name;
-                    accesslist.Add(memberName);
+                    listOfUsersAssignedToThisGroup.Add(p.Name);
                 }
 
-                grp.Dispose();
+                ADGroup.Dispose();
             }
             else
             {
-                string userName =  groupName;
-                accesslist.Add(userName);
+                listOfUsersAssignedToThisGroup.Add(wantedGroup);
             }
 
-            return accesslist;
+            return listOfUsersAssignedToThisGroup;
         }
 
         public string[] AccountStatus(string samAccontName)
@@ -114,14 +113,13 @@ namespace Sharing_Inspector
             return userData;
         }
 
+
         public void DisposeContext()
         {
-
             if (this.ctx != null)
             {
                 ctx.Dispose();
             }
-            
         }
 
     }
