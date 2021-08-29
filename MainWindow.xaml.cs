@@ -64,7 +64,8 @@ namespace Sharing_Inspector
 
         private async void submitButton_Click(object sender, RoutedEventArgs e)
         {
-            //var watch = System.Diagnostics.Stopwatch.StartNew();
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            Timer.Text = "";
 
 
             submitButton.IsEnabled = false;
@@ -145,11 +146,10 @@ namespace Sharing_Inspector
             }
 
             Domain.DisposeContext();
-            //watch.Stop();
-            //Progress.Text += " (" + (watch.ElapsedMilliseconds / 1000) + " sec.)";
+            watch.Stop();
+            double timeOfRun = watch.ElapsedMilliseconds / 1000.00;
+            Timer.Text += "Time fo run: " + timeOfRun + " sec.";
         }
-
-
 
         public static string OpenFileBrowserDialog(bool multiselect)
         {
@@ -173,7 +173,6 @@ namespace Sharing_Inspector
         {
             Folders.Text += OpenFileBrowserDialog(true) + ";\n";
         }
-
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
@@ -265,9 +264,12 @@ namespace Sharing_Inspector
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
             accessData.Text = "LocalPath,FullName,AdGroupName,SamAccountName,Status";
-            AccessData = null;
             submitButton.IsEnabled = true;
             submitButton.Content = "Inspect";
+            Timer.Text = "";
+
+            AccessData = null;
+            AccessData = new List<AccessRecord>();
         }
 
         public static bool IsAdministrator()

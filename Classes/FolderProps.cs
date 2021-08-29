@@ -49,7 +49,7 @@ namespace Sharing_Inspector
 
                 catch (Exception)
                 {
-                    MessageBox.Show("Filed to get access groups. Verify folder(s) path(s) or run program as Administrator.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Filed to get access groups. \n \n Make sure that: \n - Folders paths are correct \n - Program was launched as Administrator.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
                     //throw;
                 }

@@ -102,15 +102,11 @@
                     <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
                 </Style.Resources>
             </Style>
-
             <!-- End of snippets -->
-
         </ResourceDictionary>
     </Window.Resources>
-    
 
 
-    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
@@ -140,16 +136,17 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="Sharing Inspector"
+            <TextBlock Text="SHARING INSPECTOR"
                        FontFamily="Verdana"
                        Foreground="#FFFFFF"
                        Grid.Column="0"
+                       Grid.ColumnSpan="2"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        FontWeight="Light"
-                       FontSize="21"/>
+                       FontSize="18"/>
 
-            <Button Grid.Column="9" 
+            <Button Grid.Column="9"
                     Name="MinimizeButton" 
                     Content="-"
                     Foreground="#FFFFFF"
@@ -181,7 +178,6 @@
                         </Border>
                     </ControlTemplate>
                 </Button.Template>
-
             </Button>
 
             <Button Grid.Column="10" 
@@ -216,13 +212,10 @@
                         </Border>
                     </ControlTemplate>
                 </Button.Template>
-                
             </Button>
-
         </Grid>
 
         <!-- Settings Column -->
-
 
         <StackPanel Grid.Row="1">
 
@@ -230,10 +223,9 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center">
 
-            <Image Source="Images/gears-color.png"
+                <Image Source="Images/gears-color.png"
                    VerticalAlignment="Center"
                    Margin="10"/>
-
 
             </StackPanel>
 
@@ -287,7 +279,7 @@
 
             <StackPanel Orientation="Horizontal" 
                         Margin="10,0,10,10">
-                
+
                 <TextBlock Text="Container"
                        Width="80"
                        Foreground="#FFFFFF"
@@ -312,7 +304,7 @@
 
             <StackPanel Orientation="Horizontal" 
                         Margin="10,10,10,10">
-                
+
                 <TextBlock Text="Include all subfolders"
                        Width="130"
                        Foreground="#FFFFFF"
@@ -322,18 +314,13 @@
                        FontWeight="Light"
                        FontSize="12"
                        Margin="5,0,15,0"/>
-                
+
                 <CheckBox x:Name="Subfolders" 
                           Click="checkAccountStatus_click"/>
             </StackPanel>
 
 
             <!-- Select Directories-->
-
-            <StackPanel Orientation="Horizontal">
-
-
-            </StackPanel>
 
             <StackPanel Orientation="Vertical"
                        VerticalAlignment="Center"
@@ -348,7 +335,6 @@
                    Foreground="#cfcfcf"
                    FontFamily="Verdana"
                    Margin="10,10,10,0"/>
-
 
 
                 <Button x:Name="addFolderButton"
@@ -381,16 +367,10 @@
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
-
                 </Button>
-                
             </StackPanel>
-            
-            
-
         </StackPanel>
-        
-        
+
         <!-- Inspect Column-->
 
         <StackPanel Grid.Column="1"
@@ -439,13 +419,23 @@
                 <TextBlock x:Name="Progress"
                        Text=""
                        Width="175"
-                       Foreground="#FFFFFF"
+                       Foreground="#FF2A909C"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        FontFamily="Verdana"
                        FontWeight="Light"
                        FontSize="14"
                        Margin="5,0,15,0"/>
+
+                <TextBlock x:Name="Timer"
+                       Text=""
+                       Foreground="#FF2A909C"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                       FontFamily="Verdana"
+                       FontWeight="Light"
+                       FontSize="12"
+                       Margin="150,0,15,0"/>
 
             </StackPanel>
 
@@ -525,7 +515,7 @@
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
-                    
+
                 </Button>
 
                 <Button x:Name="XML" 
@@ -603,8 +593,6 @@
                        FontSize="14"
                        Margin="10,10,10,10"/>
 
-
-
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right">
 
@@ -615,25 +603,16 @@
 
                 <TextBlock VerticalAlignment="Center">
                 
-
                 <Hyperlink NavigateUri="https://github.com/mateoo1" 
                            RequestNavigate="Hyperlink_RequestNavigate"
                            Foreground="#FF2A909C"
                            FontFamily="Verdana"
                            FontWeight="Light"
                            FontSize="10">
-
-
                     github.com/mateoo1
                 </Hyperlink>
                 </TextBlock>
-
             </StackPanel>
-
-
         </StackPanel>
-
-
     </Grid>
-    
 </Window>
