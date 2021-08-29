@@ -95,10 +95,17 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
+            <!--https://stackoverflow.com/questions/12373248/annoying-square-where-scrollbars-meet-->
+            <Style TargetType="{x:Type ScrollViewer}">
+                <Style.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+                </Style.Resources>
+            </Style>
         </ResourceDictionary>
     </Window.Resources>
     
-<!-- End of snippet -->
+<!-- End of snippets -->
 
     
     <Grid>
@@ -450,25 +457,9 @@
                  Background="#1F1F2D"
                  Foreground="#CFCFCF"
                  FontFamily="Fonts/#Lato-Regular">
-
-                <!--<TextBox.Resources>
-                    <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
-                        <Setter Property="Background" Value="#181730"/>
-                        <Setter Property="BorderBrush" Value="#181730"/>
-                        <Setter Property="Foreground" Value="#1F1F2D"/>
-                    </Style>
-                </TextBox.Resources>-->
             </TextBox>
 
-            <!--TextBlock Text="Save as: "
-                           Foreground="#CFCFCF"
-                           VerticalAlignment="Center"
-                           FontFamily="Fonts/#Lato-Regular"
-                           FontWeight="Light"
-                           FontSize="16"
-                           Margin="10,10,10,10"/-->
 
-            <!--Save As area-->
             <StackPanel Orientation="Horizontal">
 
                 <Button x:Name="CSV" 
@@ -532,7 +523,7 @@
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
-
+                    
                 </Button>
 
                 <Button x:Name="XML" 
@@ -596,9 +587,7 @@
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
-
                 </Button>
-
             </StackPanel>
 
             <TextBlock x:Name="Saved"
@@ -611,8 +600,6 @@
                        FontWeight="Light"
                        FontSize="14"
                        Margin="10,10,10,10"/>
-
         </StackPanel>
-
     </Grid>
 </Window>
