@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml.Serialization;
+using System.Diagnostics;
+using System.Windows.Navigation;
 
 
 namespace Sharing_Inspector
@@ -63,6 +65,10 @@ namespace Sharing_Inspector
         private async void submitButton_Click(object sender, RoutedEventArgs e)
         {
             //var watch = System.Diagnostics.Stopwatch.StartNew();
+
+
+            submitButton.IsEnabled = false;
+            submitButton.Content = "Inspecting...";
 
             // Warn if user provided prefix diffrent from identifed by class method
             if (domainPrefix.Text != Domain.domainPrefix)
@@ -129,7 +135,8 @@ namespace Sharing_Inspector
 
                 if (completedItems == folderDataCollectionLength)
                 {
-                    Progress.Text = "Completed!";
+                    submitButton.Content = "Completed!";
+                    Progress.Text = "";
                 }
                 else
                 {
@@ -259,12 +266,20 @@ namespace Sharing_Inspector
         {
             accessData.Text = "LocalPath,FullName,AdGroupName,SamAccountName,Status";
             AccessData = null;
+            submitButton.IsEnabled = true;
+            submitButton.Content = "Inspect";
         }
 
         public static bool IsAdministrator()
         {
             return (new WindowsPrincipal(WindowsIdentity.GetCurrent()))
                       .IsInRole(WindowsBuiltInRole.Administrator);
+        }
+
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            e.Handled = true;
         }
     }
 }
