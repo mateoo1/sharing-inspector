@@ -113,7 +113,6 @@ namespace Sharing_Inspector
             return userData;
         }
 
-
         public void DisposeContext()
         {
             if (this.ctx != null)
