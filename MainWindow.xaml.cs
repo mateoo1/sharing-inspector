@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Principal;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
@@ -48,19 +49,40 @@ namespace Sharing_Inspector
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
             }
+
+            if (!IsAdministrator())
+            {
+                MessageBox.Show("Application must be launched as Administrator.",
+                "Warning",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning);
+            }
+
         }
 
         private async void submitButton_Click(object sender, RoutedEventArgs e)
         {
             //var watch = System.Diagnostics.Stopwatch.StartNew();
 
-            ArrayList folderDataCollection = this.folderProps.ShowAccessGroupsOfParentOnly(domainPrefix.Text);
+            // Warn if user provided prefix diffrent from identifed by class method
+            if (domainPrefix.Text != Domain.domainPrefix)
+            {
+                MessageBox.Show("Provided prefix is diffrent from identifed by application. There might be a problem with getting results.",
+                "Warning",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning);
+            }
 
+            ArrayList folderDataCollection = new ArrayList();
+            folderDataCollection = this.folderProps.ShowAccessGroupsOfParentOnly(domainPrefix.Text);
+
+            // add another set of data if user want to scan subfolders
             if (Subfolders.IsChecked == true)
             {
                 folderDataCollection.AddRange(this.folderProps.ShowAccessGroupsOfChilds(domainPrefix.Text));
             }
-            
+
+            // Progress
             decimal folderDataCollectionLength = folderDataCollection.Count;
             decimal completedItems = 0;
             Progress.Text += "";
@@ -237,6 +259,12 @@ namespace Sharing_Inspector
         {
             accessData.Text = "LocalPath,FullName,AdGroupName,SamAccountName,Status";
             AccessData = null;
+        }
+
+        public static bool IsAdministrator()
+        {
+            return (new WindowsPrincipal(WindowsIdentity.GetCurrent()))
+                      .IsInRole(WindowsBuiltInRole.Administrator);
         }
     }
 }

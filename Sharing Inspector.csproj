@@ -50,7 +50,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>looking-glass.ico</ApplicationIcon>
+    <ApplicationIcon>lg.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -148,20 +148,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Fonts\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\gears-color.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\looking-glass.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\glass.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\glass.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">
@@ -176,10 +168,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="glass.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="looking-glass.ico" />
+    <Resource Include="lg.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

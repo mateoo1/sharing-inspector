@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:Sharing_Inspector"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+
     </Application.Resources>
 </Application>
