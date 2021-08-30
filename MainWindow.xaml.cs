@@ -283,5 +283,10 @@ namespace Sharing_Inspector
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
             e.Handled = true;
         }
+
+        private void ClearFolders_Click(object sender, RoutedEventArgs e)
+        {
+            Folders.Text = "";
+        }
     }
 }

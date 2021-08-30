@@ -337,37 +337,71 @@
                    Margin="10,10,10,0"/>
 
 
-                <Button x:Name="addFolderButton"
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="addFolderButton"
                         HorizontalAlignment="Left"
                         Content="Browse" 
                         Click="addFolderButton_Click"
                         Foreground="#FFFFFF"
                         Margin="10,10,10,10">
 
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="TextElement.FontFamily" Value="Fonts/#Lato-Bold"/>
-                            <Setter Property="Background" Value="#e45e47"/>
-                            <Setter Property="Cursor" Value="Hand"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#FFD63926"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="TextElement.FontFamily" Value="Fonts/#Lato-Bold"/>
+                                <Setter Property="Background" Value="#e45e47"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FFD63926"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
 
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Border Width="80" Height="25"
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Width="80" Height="25"
                                 CornerRadius="7"
                                 Background="{TemplateBinding Background}">
-                                <ContentPresenter VerticalAlignment="Center"
+                                    <ContentPresenter VerticalAlignment="Center"
                                               HorizontalAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+
+                    <Button x:Name="ClearFolders" 
+                        Content="Clear" 
+                        Click="ClearFolders_Click"
+                        Foreground="#FFFFFF"
+                        Margin="10,10,10,10">
+
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="TextElement.FontFamily" Value="Fonts/#Lato-Bold"/>
+                                <Setter Property="Background" Value="#2baaba"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FF3FBCC7"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Width="80" Height="25"
+                                CornerRadius="7"
+                                Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
             </StackPanel>
         </StackPanel>
 
