@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sharing_Inspector"
         mc:Ignorable="d"
-        Title="Sharing Inspector" Height="580" Width="1100"
+        Title="Sharing Inspector" Height="550" Width="1100"
         WindowStyle="None"
         ResizeMode="CanMinimize"
         Background="#1F1F2D">
@@ -520,7 +520,7 @@
 
                 </Button>
 
-                <Button x:Name="JSON" 
+                <!--Button x:Name="JSON" 
                         Content="JSON" 
                         Click="JSON_Click"
                         Foreground="#FFFFFF"
@@ -550,7 +550,7 @@
                         </ControlTemplate>
                     </Button.Template>
 
-                </Button>
+                </Button-->
 
                 <Button x:Name="XML" 
                         Content="XML" 
@@ -614,9 +614,8 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-            </StackPanel>
 
-            <TextBlock x:Name="Saved"
+                <TextBlock x:Name="Saved"
                        Text=""
                        Width="320"
                        Foreground="#FFFFFF"
@@ -626,6 +625,7 @@
                        FontWeight="Light"
                        FontSize="14"
                        Margin="10,10,10,10"/>
+            </StackPanel>
 
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right">
