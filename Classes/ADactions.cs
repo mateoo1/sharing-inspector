@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.DirectoryServices.AccountManagement;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Sharing_Inspector
 {
@@ -67,59 +68,83 @@ namespace Sharing_Inspector
 
         public ArrayList ShowMembers(string wantedGroup)
         {
-            ArrayList listOfUsersAssignedToThisGroup = new ArrayList();
-            GroupPrincipal ADGroup = GroupPrincipal.FindByIdentity(ctx, IdentityType.Name, wantedGroup);
-            
-
-            if (ADGroup != null)
+            try
             {
-                var wantedGroupMembers = ADGroup.GetMembers(true);
+                ArrayList listOfUsersAssignedToThisGroup = new ArrayList();
+                GroupPrincipal ADGroup = GroupPrincipal.FindByIdentity(ctx, IdentityType.Name, wantedGroup);
 
-                //foreach (Principal member in wantedGroupMembers)
-                //{
-                //    listOfUsersAssignedToThisGroup.Add(member.Name);
-                //}
 
-                Parallel.ForEach<Principal>(wantedGroupMembers, (member) =>
+                if (ADGroup != null)
                 {
-                    listOfUsersAssignedToThisGroup.Add(member.Name);
-                });
+                    var wantedGroupMembers = ADGroup.GetMembers(true);
 
-                ADGroup.Dispose();
+                    //foreach (Principal member in wantedGroupMembers)
+                    //{
+                    //    listOfUsersAssignedToThisGroup.Add(member.Name);
+                    //}
+
+                    Parallel.ForEach<Principal>(wantedGroupMembers, (member) =>
+                    {
+                        listOfUsersAssignedToThisGroup.Add(member.Name);
+                    });
+
+                    ADGroup.Dispose();
+                }
+                else
+                {
+                    listOfUsersAssignedToThisGroup.Add(wantedGroup);
+                }
+
+                return listOfUsersAssignedToThisGroup;
             }
-            else
+            catch (Exception ex)
             {
-                listOfUsersAssignedToThisGroup.Add(wantedGroup);
-            }
 
-            return listOfUsersAssignedToThisGroup;
+                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                throw ex;
+            }
         }
 
         public string[] AccountStatus(string samAccontName)
         {
-            UserPrincipal usr = UserPrincipal.FindByIdentity(ctx, IdentityType.SamAccountName, samAccontName);
-
+            UserPrincipal usr;
             string[] userData = new string[3];
 
-            userData[0] = usr.GivenName + " " + usr.Surname;
-            userData[2] = usr.Name;
-
-            if (usr.Enabled == true)
+            try
             {
-                userData[1] = "Enabled";
-                
-            }
-            else if (usr.Enabled == false) 
-            {
+                usr = UserPrincipal.FindByIdentity(ctx, IdentityType.SamAccountName, samAccontName);
 
-                userData[1] = "Disabled";
+                userData[0] = usr.GivenName + " " + usr.Surname;
+                userData[2] = usr.Name;
+
+                if (usr.Enabled == true)
+                {
+                    userData[1] = "Enabled";
+
+                }
+                else if (usr.Enabled == false)
+                {
+
+                    userData[1] = "Disabled";
+                }
+                else
+                {
+                    userData[1] = "Unknown";
+                }
+
+                return userData;
             }
-            else
+            catch (Exception ex2)
             {
-                userData[1] = "Unknown";
+                // MessageBox.Show(ex2.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                // throw ex2;
+                userData[0] = "Unknown";
+                userData[1] = "Not available";
+                userData[2] = "Unknown";
+                return userData;
             }
 
-            return userData;
+
         }
 
         public void DisposeContext()
