@@ -5,6 +5,7 @@ using System.Security.Principal;
 using System.Collections;
 using System.Windows;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Sharing_Inspector
 {
@@ -29,7 +30,7 @@ namespace Sharing_Inspector
                 {
                     DirectoryInfo dirInfo = new DirectoryInfo(folder);
                     DirectorySecurity folderSec = dirInfo.GetAccessControl();
-                    var authRuleCollection = folderSec.GetAccessRules(true, true, typeof(NTAccount));
+                    AuthorizationRuleCollection authRuleCollection = folderSec.GetAccessRules(true, true, typeof(NTAccount));
 
                     foreach (FileSystemAccessRule authRule in authRuleCollection)
                     {
@@ -85,6 +86,39 @@ namespace Sharing_Inspector
                     }
                 }
             }
+            return groups;
+        }
+
+
+        public ArrayList ShowAccessGroupsOfChildsParallel(string prefix)
+        {
+            ArrayList groups = new ArrayList();
+            string[] contentOfFoldersTextBox = this.foldersTextBox;
+
+            Parallel.ForEach<string>(contentOfFoldersTextBox, (item) =>
+            {
+                var childDirsCollection = new DirectoryInfo(item).EnumerateDirectories("*", SearchOption.AllDirectories);
+
+                Parallel.ForEach<DirectoryInfo>(childDirsCollection, (child) =>
+                {
+                    DirectorySecurity folderSec = child.GetAccessControl();
+                    AuthorizationRuleCollection authRuleCollection = folderSec.GetAccessRules(true, true, typeof(NTAccount));
+
+                    foreach (FileSystemAccessRule authRule in authRuleCollection)
+                    {
+                        string group = authRule.IdentityReference.ToString();
+
+                        if (group.Contains(prefix))
+                        {
+                            string[] folderInfoArray = new string[3];
+                            folderInfoArray[0] = group.Replace(prefix, "");
+                            folderInfoArray[1] = child.Name;
+                            folderInfoArray[2] = child.FullName;
+                            groups.Add(folderInfoArray);
+                        }
+                    }
+                });
+            });
             return groups;
         }
     }

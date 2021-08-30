@@ -64,7 +64,7 @@ namespace Sharing_Inspector
 
         private async void submitButton_Click(object sender, RoutedEventArgs e)
         {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
+            var watch = Stopwatch.StartNew();
             Timer.Text = "";
 
 
@@ -86,7 +86,7 @@ namespace Sharing_Inspector
             // add another set of data if user want to scan subfolders
             if (Subfolders.IsChecked == true)
             {
-                folderDataCollection.AddRange(this.folderProps.ShowAccessGroupsOfChilds(domainPrefix.Text));
+                folderDataCollection.AddRange(this.folderProps.ShowAccessGroupsOfChildsParallel(domainPrefix.Text));
             }
 
             // Progress

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.DirectoryServices.AccountManagement;
+using System.Threading.Tasks;
 
 namespace Sharing_Inspector
 {
@@ -68,13 +69,21 @@ namespace Sharing_Inspector
         {
             ArrayList listOfUsersAssignedToThisGroup = new ArrayList();
             GroupPrincipal ADGroup = GroupPrincipal.FindByIdentity(ctx, IdentityType.Name, wantedGroup);
+            
 
             if (ADGroup != null)
             {
-                foreach (Principal p in ADGroup.GetMembers(true))
+                var wantedGroupMembers = ADGroup.GetMembers(true);
+
+                //foreach (Principal member in wantedGroupMembers)
+                //{
+                //    listOfUsersAssignedToThisGroup.Add(member.Name);
+                //}
+
+                Parallel.ForEach<Principal>(wantedGroupMembers, (member) =>
                 {
-                    listOfUsersAssignedToThisGroup.Add(p.Name);
-                }
+                    listOfUsersAssignedToThisGroup.Add(member.Name);
+                });
 
                 ADGroup.Dispose();
             }
