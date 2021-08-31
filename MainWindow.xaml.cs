@@ -193,48 +193,6 @@ namespace Sharing_Inspector
             }
         }
 
-        private void checkAccountStatus_click(object sender, RoutedEventArgs e)
-        {
-
-            //MessageBoxResult dialogResult;
-
-            //if (checkAccountStatus.IsChecked == true)
-            //{
-            //   dialogResult = MessageBox.Show("It can take more time to display results for large set of folders. \n Do you want to continue?", 
-            //       "Information", 
-            //       MessageBoxButton.YesNo, 
-            //       MessageBoxImage.Information);
-
-            //    if (dialogResult == MessageBoxResult.No)
-            //    {
-            //        checkAccountStatus.IsChecked = false;
-                    
-            //    }
-            //    else
-            //    {
-            //        checkAccountStatus.IsChecked = true;
-            //        accessData.Text = "LocalPath,AdGroupName,SamAccountName,FullName,Status";
-            //    }
-            //}
-            //else
-            //{
-            //    accessData.Text = "LocalPath,AdGroupName,SamAccountName";
-            //}
-
-
-            //if (checkAccountStatus.IsChecked == true)
-            //{
-            //    accessData.Text = "LocalPath,FullName,AdGroupName,SamAccountName,Status";
-            //}
-            //else
-            //{
-            //    accessData.Text = "LocalPath,AdGroupName,SamAccountName";
-            //}
-
-
-
-        }
-
         private void CSV_Click(object sender, RoutedEventArgs e)
         {
             File.WriteAllText(@"Inspection.csv", accessData.Text);
@@ -263,7 +221,7 @@ namespace Sharing_Inspector
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
-            accessData.Text = "LocalPath,FullName,AdGroupName,SamAccountName,Status";
+            accessData.Text = "Folder,FullName,AdGroupName,SamAccountName,Status,FullPath";
             submitButton.IsEnabled = true;
             submitButton.Content = "Inspect";
             Timer.Text = "";

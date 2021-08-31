@@ -39,11 +39,6 @@ namespace Sharing_Inspector
 
                         if (group.Contains(prefix))
                         {
-                            //string[] folderInfoArray = new string[3];
-                            //folderInfoArray[0] = group.Replace(prefix, "");
-                            //folderInfoArray[1] = dirInfo.Name;
-                            //folderInfoArray[2] = dirInfo.FullName;
-
                             Dictionary<string, string> folderInfo = new Dictionary<string, string>();
                             folderInfo.Add("Group", group.Replace(prefix, ""));
                             folderInfo.Add("SAMAccountName", dirInfo.Name);
@@ -83,12 +78,6 @@ namespace Sharing_Inspector
 
                         if (group.Contains(prefix))
                         {
-                            //string[] folderInfoArray = new string[3];
-                            //folderInfoArray[0] = group.Replace(prefix, "");
-                            //folderInfoArray[1] = child.Name;
-                            //folderInfoArray[2] = child.FullName;
-
-
                             Dictionary<string, string> folderInfo = new Dictionary<string, string>();
                             folderInfo.Add("Group", group.Replace(prefix, ""));
                             folderInfo.Add("SAMAccountName", child.Name);
@@ -122,12 +111,6 @@ namespace Sharing_Inspector
 
                         if (group.Contains(prefix))
                         {
-                            //string[] folderInfoArray = new string[3];
-                            //folderInfoArray[0] = group.Replace(prefix, "");
-                            //folderInfoArray[1] = child.Name;
-                            //folderInfoArray[2] = child.FullName;
-                            //groups.Add(folderInfoArray);
-
                             Dictionary<string, string> folderInfo = new Dictionary<string, string>();
                             folderInfo.Add("Group", group.Replace(prefix, ""));
                             folderInfo.Add("SAMAccountName", child.Name);
