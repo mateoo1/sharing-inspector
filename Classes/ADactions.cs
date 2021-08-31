@@ -66,42 +66,53 @@ namespace Sharing_Inspector
         }
         */
 
+
         public ArrayList ShowMembers(string wantedGroup)
         {
-            try
+            ArrayList listOfUsersAssignedToThisGroup = new ArrayList();
+
+            if (wantedGroup.Contains("Domain Users"))
             {
-                ArrayList listOfUsersAssignedToThisGroup = new ArrayList();
-                GroupPrincipal ADGroup = GroupPrincipal.FindByIdentity(ctx, IdentityType.Name, wantedGroup);
 
-
-                if (ADGroup != null)
-                {
-                    var wantedGroupMembers = ADGroup.GetMembers(true);
-
-                    //foreach (Principal member in wantedGroupMembers)
-                    //{
-                    //    listOfUsersAssignedToThisGroup.Add(member.Name);
-                    //}
-
-                    Parallel.ForEach<Principal>(wantedGroupMembers, (member) =>
-                    {
-                        listOfUsersAssignedToThisGroup.Add(member.Name);
-                    });
-
-                    ADGroup.Dispose();
-                }
-                else
-                {
-                    listOfUsersAssignedToThisGroup.Add(wantedGroup);
-                }
-
+                listOfUsersAssignedToThisGroup.Add("All Domain Users");
                 return listOfUsersAssignedToThisGroup;
-            }
-            catch (Exception ex)
-            {
 
-                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                throw ex;
+            }
+            else
+            {
+                try
+                {
+                    GroupPrincipal ADGroup = GroupPrincipal.FindByIdentity(ctx, IdentityType.Name, wantedGroup);
+
+                    if (ADGroup != null)
+                    {
+                        var wantedGroupMembers = ADGroup.GetMembers(true);
+
+                        //foreach (Principal member in wantedGroupMembers)
+                        //{
+                        //    listOfUsersAssignedToThisGroup.Add(member.Name);
+                        //}
+
+                        Parallel.ForEach<Principal>(wantedGroupMembers, (member) =>
+                        {
+                            listOfUsersAssignedToThisGroup.Add(member.Name);
+                        });
+
+                        ADGroup.Dispose();
+                    }
+                    else
+                    {
+                        listOfUsersAssignedToThisGroup.Add(wantedGroup);
+                    }
+
+                    return listOfUsersAssignedToThisGroup;
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    throw ex;
+                }
             }
         }
 
@@ -138,13 +149,11 @@ namespace Sharing_Inspector
             {
                 // MessageBox.Show(ex2.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 // throw ex2;
-                userData[0] = "Unknown";
+                userData[0] = samAccontName;
                 userData[1] = "Not available";
                 userData[2] = "Unknown";
                 return userData;
             }
-
-
         }
 
         public void DisposeContext()

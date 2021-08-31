@@ -42,7 +42,7 @@ namespace Sharing_Inspector
             domainPrefix.Text = Domain.domainPrefix;
             ContainerPath.Text = Domain.ContainerPath;
 
-            accessData.Text = "LocalPath,FullName,AdGroupName,SamAccountName,Status";
+            accessData.Text = "Folder,FullName,AdGroupName,SamAccountName,Status,FullPath";
 
             if (Domain.domainAvailability == false)
             {
@@ -129,7 +129,7 @@ namespace Sharing_Inspector
 
                     AccessRecord Record = new AccessRecord(folderArray[1], result[0], folderArray[0], result[2], result[1], folderArray[2]);
                     AccessData.Add(Record);
-                    accessData.Text += "\n" + Record.LocalPath + "," + Record.FullName + "," + Record.AdGroupName + "," + Record.SamAccountName + "," + Record.Status + "," + Record.FullPath;
+                    accessData.Text += "\n" + Record.Folder + "," + Record.FullName + "," + Record.AdGroupName + "," + Record.SamAccountName + "," + Record.Status + "," + Record.FullPath;
                 }
 
                 completedItems += 1;
@@ -267,6 +267,7 @@ namespace Sharing_Inspector
             submitButton.IsEnabled = true;
             submitButton.Content = "Inspect";
             Timer.Text = "";
+            Progress.Text = "";
 
             AccessData = null;
             AccessData = new List<AccessRecord>();
