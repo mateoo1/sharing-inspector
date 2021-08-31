@@ -6,6 +6,7 @@ using System.Collections;
 using System.Windows;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Sharing_Inspector
 {
@@ -38,11 +39,16 @@ namespace Sharing_Inspector
 
                         if (group.Contains(prefix))
                         {
-                            string[] folderInfoArray = new string[3];
-                            folderInfoArray[0] = group.Replace(prefix, "");
-                            folderInfoArray[1] = dirInfo.Name;
-                            folderInfoArray[2] = dirInfo.FullName;
-                            groups.Add(folderInfoArray);
+                            //string[] folderInfoArray = new string[3];
+                            //folderInfoArray[0] = group.Replace(prefix, "");
+                            //folderInfoArray[1] = dirInfo.Name;
+                            //folderInfoArray[2] = dirInfo.FullName;
+
+                            Dictionary<string, string> folderInfo = new Dictionary<string, string>();
+                            folderInfo.Add("Group", group.Replace(prefix, ""));
+                            folderInfo.Add("SAMAccountName", dirInfo.Name);
+                            folderInfo.Add("FullName", dirInfo.FullName);
+                            groups.Add(folderInfo);
 
                         }
                     }
@@ -77,11 +83,17 @@ namespace Sharing_Inspector
 
                         if (group.Contains(prefix))
                         {
-                            string[] folderInfoArray = new string[3];
-                            folderInfoArray[0] = group.Replace(prefix, "");
-                            folderInfoArray[1] = child.Name;
-                            folderInfoArray[2] = child.FullName;
-                            groups.Add(folderInfoArray);
+                            //string[] folderInfoArray = new string[3];
+                            //folderInfoArray[0] = group.Replace(prefix, "");
+                            //folderInfoArray[1] = child.Name;
+                            //folderInfoArray[2] = child.FullName;
+
+
+                            Dictionary<string, string> folderInfo = new Dictionary<string, string>();
+                            folderInfo.Add("Group", group.Replace(prefix, ""));
+                            folderInfo.Add("SAMAccountName", child.Name);
+                            folderInfo.Add("FullName", child.FullName);
+                            groups.Add(folderInfo);
                         }
                     }
                 }
@@ -110,11 +122,17 @@ namespace Sharing_Inspector
 
                         if (group.Contains(prefix))
                         {
-                            string[] folderInfoArray = new string[3];
-                            folderInfoArray[0] = group.Replace(prefix, "");
-                            folderInfoArray[1] = child.Name;
-                            folderInfoArray[2] = child.FullName;
-                            groups.Add(folderInfoArray);
+                            //string[] folderInfoArray = new string[3];
+                            //folderInfoArray[0] = group.Replace(prefix, "");
+                            //folderInfoArray[1] = child.Name;
+                            //folderInfoArray[2] = child.FullName;
+                            //groups.Add(folderInfoArray);
+
+                            Dictionary<string, string> folderInfo = new Dictionary<string, string>();
+                            folderInfo.Add("Group", group.Replace(prefix, ""));
+                            folderInfo.Add("SAMAccountName", child.Name);
+                            folderInfo.Add("FullName", child.FullName);
+                            groups.Add(folderInfo);
                         }
                     }
                 });

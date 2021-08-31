@@ -94,13 +94,13 @@ namespace Sharing_Inspector
             decimal completedItems = 0;
             Progress.Text += "";
 
-            foreach (string[] folderArray in folderDataCollection)
+            foreach (Dictionary<string, string> folderData in folderDataCollection)
             {
                 ArrayList membersOfThisGroup;
 
                 try
                 {
-                    membersOfThisGroup = await Task.Run(() => Domain.ShowMembers(folderArray[0]));
+                    membersOfThisGroup = await Task.Run(() => Domain.ShowMembers(folderData["Group"]));
                 }
                 catch (Exception)
                 {
@@ -109,25 +109,25 @@ namespace Sharing_Inspector
                 }
 
                 // AD account details
-                List<Task<string[]>> tasks = new List<Task<string[]>>();
+                List<Task<Dictionary<string, string>>> AccountStatusTasks = new List<Task<Dictionary<string, string>>>();
 
                 foreach (string member in membersOfThisGroup)
                 {
-                    string[] userAccountInfo = new string[3];
-                    tasks.Add(Task.Run(() => Domain.AccountStatus(member)));
+                    //string[] userAccountInfo = new string[3];
+                    AccountStatusTasks.Add(Task.Run(() => Domain.AccountStatus(member)));
                 }
 
-                var results = await Task.WhenAll(tasks);
+                var AccountStatusResults = await Task.WhenAll(AccountStatusTasks);
                 //
 
-                foreach (var result in results)
+                foreach (var status in AccountStatusResults)
                 {
-                    if (folderArray[0] == result[2])
+                    if (folderData["Group"] == status["SAMAccountName"])
                     {
-                        folderArray[0] = "Assigned locally";
+                        folderData["Group"] = "Assigned locally";
                     }
 
-                    AccessRecord Record = new AccessRecord(folderArray[1], result[0], folderArray[0], result[2], result[1], folderArray[2]);
+                    AccessRecord Record = new AccessRecord(folderData["SAMAccountName"], status["FullName"], folderData["Group"], status["SAMAccountName"], status["Status"], folderData["FullName"]);
                     AccessData.Add(Record);
                     accessData.Text += "\n" + Record.Folder + "," + Record.FullName + "," + Record.AdGroupName + "," + Record.SamAccountName + "," + Record.Status + "," + Record.FullPath;
                 }

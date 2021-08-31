@@ -116,31 +116,31 @@ namespace Sharing_Inspector
             }
         }
 
-        public string[] AccountStatus(string samAccontName)
+        public Dictionary<string, string> AccountStatus(string samAccontName)
         {
             UserPrincipal usr;
-            string[] userData = new string[3];
+            Dictionary<string, string> userData = new Dictionary<string, string>();
 
             try
             {
                 usr = UserPrincipal.FindByIdentity(ctx, IdentityType.SamAccountName, samAccontName);
 
-                userData[0] = usr.GivenName + " " + usr.Surname;
-                userData[2] = usr.Name;
+                userData.Add("FullName", (usr.GivenName + " " + usr.Surname));
+                userData.Add("SAMAccountName", usr.Name);
 
                 if (usr.Enabled == true)
                 {
-                    userData[1] = "Enabled";
+                    userData.Add("Status", "Enabled");
 
                 }
                 else if (usr.Enabled == false)
                 {
 
-                    userData[1] = "Disabled";
+                    userData.Add("Status", "Disabled");
                 }
                 else
                 {
-                    userData[1] = "Unknown";
+                    userData.Add("Status", "Unknown");
                 }
 
                 return userData;
@@ -149,9 +149,9 @@ namespace Sharing_Inspector
             {
                 // MessageBox.Show(ex2.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 // throw ex2;
-                userData[0] = samAccontName;
-                userData[1] = "Not available";
-                userData[2] = "Unknown";
+                userData.Add("SAMAccountName", "Unknown");
+                userData.Add("Status", "Not available");
+                userData.Add("FullName", samAccontName);
                 return userData;
             }
         }
