@@ -4,9 +4,9 @@ Sharing Inspector is a tool that making possible to quickly inspect which domain
 
 **How to use Sharing Inspector.**
 
-[STEP 1] Select **Browse** button to choose folders that you want to inspect. You can select many at once or if you have folder paths, just paste it into text box above the button, Please remember to separate paths by semicolon.
-[STEP 2] Select **Inspect** to start inspection and wait for results.
-[STEP 3] At the end you can save results int .csv or.xml file. The file will appear in program location.
+1) Select **Browse** button to choose folders that you want to inspect. You can select many at once or if you have folder paths, just paste it into text box above the button, Please remember to separate paths by semicolon.
+2) Select **Inspect** to start inspection and wait for results.
+3) At the end you can save results int .csv or.xml file. The file will appear in program location.
 
 **Include all subfolders** – this option makes you able to look in every subfolder of selected folders. Using this option will consume more time, as the program is drilling subfolders to the end. 
 
