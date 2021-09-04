@@ -13,4 +13,6 @@ Sharing Inspector is a tool that making possible to quickly inspect which domain
 It’s recommended to leave below options unchanged, unless you are 100% sure what you want to achive.
 - **Domain** – Info about detected domain name.
 - **Prefix** – it’s a domain prefix usually added to name of AD secutirty groups. The program is using this field to sanitize group name before querying domain about group members.
-- **Container** – the AD location which will be used for cheking groups membership and accounts status. 
+- **Container** – the AD location which will be used for cheking groups membership and accounts status.
+
+![sharing-inspector](https://user-images.githubusercontent.com/32539815/132106021-e43863ce-8621-4d28-8672-aa4ee6ef3b7f.jpg)
