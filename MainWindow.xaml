@@ -315,8 +315,7 @@
                        FontSize="12"
                        Margin="5,0,15,0"/>
 
-                <CheckBox x:Name="Subfolders" 
-                          Click="checkAccountStatus_click"/>
+                <CheckBox x:Name="Subfolders" />
             </StackPanel>
 
 

@@ -148,7 +148,7 @@ namespace Sharing_Inspector
             Domain.DisposeContext();
             watch.Stop();
             double timeOfRun = watch.ElapsedMilliseconds / 1000.00;
-            Timer.Text += "Time fo run: " + timeOfRun + " sec.";
+            Timer.Text += "Elapsed time: " + timeOfRun + " sec.";
         }
 
         public static string OpenFileBrowserDialog(bool multiselect)
