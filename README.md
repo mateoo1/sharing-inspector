@@ -25,7 +25,7 @@ HR Data|Jane Roe|HR_Data_Read_Write|JRoe|Enabled|D:\Share\HR Data
 
 * Folder - name of inspected folder
 * FullName - First name + last name of the user in AD
-* SamAccountName - name of user aacount in AD
+* SamAccountName - name of user account in AD
 * Status - the status of user account in AD
 * SamAccountName - Full path to the folder on local drive.
 
