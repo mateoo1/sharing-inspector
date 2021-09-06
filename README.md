@@ -18,10 +18,10 @@ HR Data|John Doe|HR_Data_Read_Write|JDoe|Enabled|D:\Share\HR Data
 HR Data|Jane Roe|HR_Data_Read_Write|JRoe|Enabled|D:\Share\HR Data
 
 * Folder - name of inspected folder
-FullName - First name + last name of the user in AD
-SamAccountName - name of user aacount in AD
-Status - the status of user account in AD
-SamAccountName - Full path to the folder on local drive.
+* FullName - First name + last name of the user in AD
+* SamAccountName - name of user aacount in AD
+* Status - the status of user account in AD
+* SamAccountName - Full path to the folder on local drive.
 
 **Include all subfolders** – this option makes you able to look in every subfolder of selected folders. Using this option will consume more time, as the program is drilling subfolders to the end. 
 
