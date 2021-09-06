@@ -16,7 +16,6 @@ Sharing Inspector is a tool that making possible to quickly inspect which domain
 
 **WHAT WILL BE IN OUTPUT?**
 
-<br /><br />
 
 Example:
 
@@ -35,7 +34,6 @@ HR Data|Jane Roe|HR_Data_Read_Write|JRoe|Enabled|D:\Share\HR Data
 
 **OTHER OPTIONS.**
 
-<br /><br />
 
 **Include all subfolders** – this option makes you able to look in every subfolder of selected folders. Using this option will consume more time, as the program is drilling subfolders to the end. <br />
 
@@ -44,7 +42,9 @@ It’s recommended to leave below options unchanged, unless you are 100% sure wh
 **Prefix** – it’s a domain prefix usually added to name of AD secutirty groups. The program is using this field to sanitize group name before querying domain about group members.<br />
 **Container** – the AD location which will be used for cheking groups membership and accounts status.<br />
 
-**Additional information**
+<br /><br />
+
+**ADDITIONAL INFO**
 
 > If program find out that Domain Users group is assigned to some shared folder then will not display all your domain users in output. There will be only one single record about that Domain Users has been assigned to folder.
 
