@@ -11,10 +11,10 @@ Sharing Inspector is a tool that making possible to quickly inspect which domain
 **What will be in output?**
 
 Example:
-''
+``
 Folder,FullName,AdGroupName,SamAccountName,Status,Fullpath
 HR Data,John Doe,HR_Data_Read_Write,JDoe,Enabled,D:\Share\HR Data
-''
+``
 Folder - name of inspected folder,
 FullName - First name + last name of the user in AD,
 SamAccountName - name of user aacount in AD,
