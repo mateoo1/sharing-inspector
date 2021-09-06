@@ -8,6 +8,19 @@ Sharing Inspector is a tool that making possible to quickly inspect which domain
 2) Select **Inspect** to start inspection and wait for results.
 3) At the end you can save results int .csv or.xml file. The file will appear in program location.
 
+**What will be in output?**
+
+Example:
+''
+Folder,FullName,AdGroupName,SamAccountName,Status,Fullpath
+HR Data,John Doe,HR_Data_Read_Write,JDoe,Enabled,D:\Share\HR Data
+''
+Folder - name of inspected folder,
+FullName - First name + last name of the user in AD,
+SamAccountName - name of user aacount in AD,
+Status - the status of user account in AD,
+SamAccountName - Full path to the folder on local drive.
+
 **Include all subfolders** – this option makes you able to look in every subfolder of selected folders. Using this option will consume more time, as the program is drilling subfolders to the end. 
 
 It’s recommended to leave below options unchanged, unless you are 100% sure what you want to achive.
