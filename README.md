@@ -15,7 +15,7 @@ Example:
 |Folder|FullName|AdGroupName|SamAccountName|Status|Fullpath
 | ------------- | ------------- | ------------- |------------- |------------- |------------- |
 HR Data|John Doe|HR_Data_Read_Write|JDoe|Enabled|D:\Share\HR Data
-
+HR Data|Jane Roe|HR_Data_Read_Write|JRoe|Enabled|D:\Share\HR Data
 
 Folder - name of inspected folder,
 FullName - First name + last name of the user in AD,
