@@ -6,7 +6,6 @@ Sharing Inspector is a tool that making possible to quickly inspect which domain
 
 **QUICK START**
 
-<br /><br />
 
 1) Select **Browse** button to choose folders that you want to inspect. You can select many at once or if you have folder paths, just paste it into text box above the button, Please remember to separate paths by semicolon.
 2) Select **Inspect** to start inspection and wait for results.
