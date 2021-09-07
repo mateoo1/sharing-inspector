@@ -22,12 +22,18 @@ Example:
 | ------------- | ------------- | ------------- |------------- |------------- |------------- |
 HR Data|John Doe|HR_Data_Read_Write|JDoe|Enabled|D:\Share\HR Data
 HR Data|Jane Roe|HR_Data_Read_Write|JRoe|Enabled|D:\Share\HR Data
+HR Data|Ron Phillips|Assigned locally|RPhillips|Enabled|D:\Share\HR Data
+Office Stuff|Domain Users|Domain Users|Enabled|D:\Share\Office Stuff
 
 * Folder - name of inspected folder
 * FullName - First name + last name of the user in AD
 * SamAccountName - name of user account in AD
 * Status - the status of user account in AD
 * SamAccountName - Full path to the folder on local drive.
+
+If program find out that Domain Users group is assigned to some shared folder then will not display all your domain users in output. There will be only one single record about that **Domain Users** has been assigned to folder.
+
+**Assigned locally** points to user that permissions has not been assigned by the AD security group. Usually it's bad practice.
 
 <br /><br />
 
