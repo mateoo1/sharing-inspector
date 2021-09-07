@@ -51,8 +51,6 @@ It’s recommended to leave below options unchanged, unless you are 100% sure wh
 
 **ADDITIONAL INFO**
 
-> If program find out that Domain Users group is assigned to some shared folder then will not display all your domain users in output. There will be only one single record about that Domain Users has been assigned to folder.
-
 
 This program has been tested on large real-life production servers. 
 For sure there will be some exceptions in different environments. 
