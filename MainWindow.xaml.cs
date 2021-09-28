@@ -121,7 +121,8 @@ namespace Sharing_Inspector
                 else
                 {
                     LocalContext localmachineContext = new LocalContext();
-                    membersOfThisGroup = localmachineContext.GetGroupMembers(folderData["Group"]);
+                    //membersOfThisGroup = localmachineContext.GetGroupMembers(folderData["Group"]);
+                    membersOfThisGroup = await Task.Run(() => localmachineContext.GetGroupMembers(folderData["Group"]));
                 }
 
 
