@@ -17,7 +17,6 @@ namespace Sharing_Inspector
 
         public ADactions()
         {
-            
             string domainString = System.Net.NetworkInformation.IPGlobalProperties.GetIPGlobalProperties().DomainName;
             string[] domainElements = domainString.Split('.');
             this.domain = domainElements[0];
@@ -109,7 +108,6 @@ namespace Sharing_Inspector
                 }
                 catch (Exception ex)
                 {
-
                     MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     throw ex;
                 }
@@ -125,25 +123,35 @@ namespace Sharing_Inspector
             {
                 usr = UserPrincipal.FindByIdentity(ctx, IdentityType.SamAccountName, samAccontName);
 
-                userData.Add("FullName", (usr.GivenName + " " + usr.Surname));
-                userData.Add("SAMAccountName", usr.Name);
-
-                if (usr.Enabled == true)
+                if (usr != null)
                 {
-                    userData.Add("Status", "Enabled");
+                    userData.Add("FullName", (usr.GivenName + " " + usr.Surname));
+                    userData.Add("SAMAccountName", usr.Name);
 
-                }
-                else if (usr.Enabled == false)
-                {
+                    if (usr.Enabled == true)
+                    {
+                        userData.Add("Status", "Enabled");
 
-                    userData.Add("Status", "Disabled");
+                    }
+                    else if (usr.Enabled == false)
+                    {
+
+                        userData.Add("Status", "Disabled");
+                    }
+                    else
+                    {
+                        userData.Add("Status", "Unknown");
+                    }
+
+                    return userData; 
                 }
                 else
                 {
-                    userData.Add("Status", "Unknown");
+                    userData.Add("SAMAccountName", "Unknown");
+                    userData.Add("Status", "Not available");
+                    userData.Add("FullName", samAccontName);
+                    return userData;
                 }
-
-                return userData;
             }
             catch (Exception ex2)
             {

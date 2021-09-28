@@ -130,6 +130,7 @@
     <Compile Include="Classes\ADactions.cs" />
     <Compile Include="Classes\FolderDialog.cs" />
     <Compile Include="Classes\FolderProps.cs" />
+    <Compile Include="Classes\LocalContext.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

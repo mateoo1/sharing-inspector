@@ -42,7 +42,7 @@ namespace Sharing_Inspector
             domainPrefix.Text = Domain.domainPrefix;
             ContainerPath.Text = Domain.ContainerPath;
 
-            accessData.Text = "Folder,FullName,AdGroupName,SamAccountName,Status,FullPath";
+            accessData.Text = "Folder,GroupName,Type,Member,SamAccountName,Status,FullPath";
 
             if (Domain.domainAvailability == false)
             {
@@ -71,7 +71,10 @@ namespace Sharing_Inspector
             submitButton.IsEnabled = false;
             submitButton.Content = "Inspecting...";
 
-            // Warn if user provided prefix diffrent from identifed by class method
+
+            // Groups identification (folder data) ------------
+
+            /* Warn if user provided prefix diffrent from identifed by class method */
             if (domainPrefix.Text != Domain.domainPrefix)
             {
                 MessageBox.Show("Provided prefix is diffrent from identifed by application. There might be a problem with getting results.",
@@ -83,55 +86,85 @@ namespace Sharing_Inspector
             ArrayList folderDataCollection = new ArrayList();
             folderDataCollection = this.folderProps.ShowAccessGroupsOfParentOnly(domainPrefix.Text);
 
-            // add another set of data if user want to scan subfolders
+            /* add another set of data if user want to scan subfolders */
             if (Subfolders.IsChecked == true)
             {
                 folderDataCollection.AddRange(this.folderProps.ShowAccessGroupsOfChildsParallel(domainPrefix.Text));
             }
+            // ---------------------------------
 
-            // Progress
+
+            // Progress control -----
             decimal folderDataCollectionLength = folderDataCollection.Count;
             decimal completedItems = 0;
             Progress.Text += "";
+            //----------------------
 
+
+            
             foreach (Dictionary<string, string> folderData in folderDataCollection)
             {
                 ArrayList membersOfThisGroup;
 
-                try
+                if (folderData["Type"] == "Domain")
                 {
-                    membersOfThisGroup = await Task.Run(() => Domain.ShowMembers(folderData["Group"]));
+                    try
+                    {
+                        membersOfThisGroup = await Task.Run(() => Domain.ShowMembers(folderData["Group"]));
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Failed to query a domain.", "Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                    } 
                 }
-                catch (Exception)
+                else
                 {
-                    MessageBox.Show("Failed to query a domain.", "Failure", MessageBoxButton.OK, MessageBoxImage.Error);
-                    break;
+                    LocalContext localmachineContext = new LocalContext();
+                    membersOfThisGroup = localmachineContext.GetGroupMembers(folderData["Group"]);
                 }
 
-                // AD account details
+
+                // Attach account details from AD ------
                 List<Task<Dictionary<string, string>>> AccountStatusTasks = new List<Task<Dictionary<string, string>>>();
 
                 foreach (string member in membersOfThisGroup)
                 {
-                    //string[] userAccountInfo = new string[3];
                     AccountStatusTasks.Add(Task.Run(() => Domain.AccountStatus(member)));
                 }
 
                 var AccountStatusResults = await Task.WhenAll(AccountStatusTasks);
-                //
+                // -------------------------
+
 
                 foreach (var status in AccountStatusResults)
                 {
-                    if (folderData["Group"] == status["SAMAccountName"])
+                    if ((folderData["Group"].ToLower()).Contains(status["SAMAccountName"].ToLower()))
                     {
-                        folderData["Group"] = "Assigned locally";
+                        folderData["Group"] = "User account";
                     }
 
-                    AccessRecord Record = new AccessRecord(folderData["SAMAccountName"], status["FullName"], folderData["Group"], status["SAMAccountName"], status["Status"], folderData["FullName"]);
+                    AccessRecord Record = new AccessRecord(folderData["SAMAccountName"], 
+                                                            folderData["Group"], 
+                                                            folderData["Type"], 
+                                                            status["FullName"], 
+                                                            status["SAMAccountName"], 
+                                                            status["Status"], 
+                                                            folderData["FullName"]);
                     AccessData.Add(Record);
-                    accessData.Text += "\n" + Record.Folder + "," + Record.FullName + "," + Record.AdGroupName + "," + Record.SamAccountName + "," + Record.Status + "," + Record.FullPath;
+
+                    accessData.Text += "\n" + 
+                        Record.Folder +","+ 
+                        Record.AdGroupName +","+ 
+                        Record.groupType +","+ 
+                        Record.FullName +","+ 
+                        Record.SamAccountName +","+ 
+                        Record.Status +","+ 
+                        Record.FullPath;
                 }
 
+
+                // Progress control -----
                 completedItems += 1;
 
                 if (completedItems == folderDataCollectionLength)
@@ -143,7 +176,9 @@ namespace Sharing_Inspector
                 {
                     Progress.Text = decimal.Round(((completedItems / folderDataCollectionLength) * 100), 0).ToString() + "%";
                 }
+                // ---------------------
             }
+
 
             Domain.DisposeContext();
             watch.Stop();
@@ -216,16 +251,17 @@ namespace Sharing_Inspector
             FileStream file = File.Create(path);
             XMLdata.Serialize(file, AccessData);
             file.Close();
-            Saved.Text = @"Data saved to XML file. (.\Inspection.xml)"; 
+            Saved.Text = @"Data saved to XML file. (.\Inspection.xml)";
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
-            accessData.Text = "Folder,FullName,AdGroupName,SamAccountName,Status,FullPath";
+            accessData.Text = "Folder,GroupName,Type,Member,SamAccountName,Status,FullPath";
             submitButton.IsEnabled = true;
             submitButton.Content = "Inspect";
             Timer.Text = "";
             Progress.Text = "";
+            Saved.Text = "";
 
             AccessData = null;
             AccessData = new List<AccessRecord>();
@@ -246,6 +282,12 @@ namespace Sharing_Inspector
         private void ClearFolders_Click(object sender, RoutedEventArgs e)
         {
             Folders.Text = "";
+        }
+
+        private void Copy_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(accessData.Text);
+            Saved.Text = "Result has been copied to clipboard. Paste it to e.g. to Excel.";
         }
     }
 }

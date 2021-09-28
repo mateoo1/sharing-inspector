@@ -43,7 +43,21 @@ namespace Sharing_Inspector
                             folderInfo.Add("Group", group.Replace(prefix, ""));
                             folderInfo.Add("SAMAccountName", dirInfo.Name);
                             folderInfo.Add("FullName", dirInfo.FullName);
+                            folderInfo.Add("Type", "Domain");
                             groups.Add(folderInfo);
+
+                        }
+                        else if (group != "NT AUTHORITY\\SYSTEM" && group.Contains("\\"))
+                        {
+                            Dictionary<string, string> folderInfo = new Dictionary<string, string>();
+                            folderInfo.Add("Group", group);
+                            folderInfo.Add("SAMAccountName", dirInfo.Name);
+                            folderInfo.Add("FullName", dirInfo.FullName);
+                            folderInfo.Add("Type", "Local");
+                            groups.Add(folderInfo);
+                        }
+                        else
+                        {
 
                         }
                     }
@@ -59,36 +73,37 @@ namespace Sharing_Inspector
             return groups;
         }
 
-        public ArrayList ShowAccessGroupsOfChilds(string prefix)
-        {
-            ArrayList groups = new ArrayList();
+        //public ArrayList ShowAccessGroupsOfChilds(string prefix)
+        //{
+        //    ArrayList groups = new ArrayList();
 
-            foreach (var item in this.foldersTextBox)
-            {
-                var childDirsCollection = new DirectoryInfo(item).EnumerateDirectories("*", SearchOption.AllDirectories);
+        //    foreach (var item in this.foldersTextBox)
+        //    {
+        //        var childDirsCollection = new DirectoryInfo(item).EnumerateDirectories("*", SearchOption.AllDirectories);
 
-                foreach (var child in childDirsCollection)
-                {
-                    DirectorySecurity folderSec = child.GetAccessControl();
-                    var authRuleCollection = folderSec.GetAccessRules(true, true, typeof(NTAccount));
+        //        foreach (var child in childDirsCollection)
+        //        {
+        //            DirectorySecurity folderSec = child.GetAccessControl();
+        //            var authRuleCollection = folderSec.GetAccessRules(true, true, typeof(NTAccount));
 
-                    foreach (FileSystemAccessRule authRule in authRuleCollection)
-                    {
-                        string group = authRule.IdentityReference.ToString();
+        //            foreach (FileSystemAccessRule authRule in authRuleCollection)
+        //            {
+        //                string group = authRule.IdentityReference.ToString();
 
-                        if (group.Contains(prefix))
-                        {
-                            Dictionary<string, string> folderInfo = new Dictionary<string, string>();
-                            folderInfo.Add("Group", group.Replace(prefix, ""));
-                            folderInfo.Add("SAMAccountName", child.Name);
-                            folderInfo.Add("FullName", child.FullName);
-                            groups.Add(folderInfo);
-                        }
-                    }
-                }
-            }
-            return groups;
-        }
+        //                if (group.Contains(prefix))
+        //                {
+        //                    Dictionary<string, string> folderInfo = new Dictionary<string, string>();
+        //                    folderInfo.Add("Group", group.Replace(prefix, ""));
+        //                    folderInfo.Add("SAMAccountName", child.Name);
+        //                    folderInfo.Add("FullName", child.FullName);
+        //                    folderInfo.Add("Type", "Domain");
+        //                    groups.Add(folderInfo);
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return groups;
+        //}
 
 
         public ArrayList ShowAccessGroupsOfChildsParallel(string prefix)
@@ -103,7 +118,7 @@ namespace Sharing_Inspector
                 Parallel.ForEach<DirectoryInfo>(childDirsCollection, (child) =>
                 {
                     DirectorySecurity folderSec = child.GetAccessControl();
-                    AuthorizationRuleCollection authRuleCollection = folderSec.GetAccessRules(true, true, typeof(NTAccount));
+                    AuthorizationRuleCollection authRuleCollection = folderSec.GetAccessRules(true, false, typeof(NTAccount));
 
                     foreach (FileSystemAccessRule authRule in authRuleCollection)
                     {
@@ -115,7 +130,22 @@ namespace Sharing_Inspector
                             folderInfo.Add("Group", group.Replace(prefix, ""));
                             folderInfo.Add("SAMAccountName", child.Name);
                             folderInfo.Add("FullName", child.FullName);
+                            folderInfo.Add("Type", "Domain");
                             groups.Add(folderInfo);
+
+                        }
+                        else if (group != "NT AUTHORITY\\SYSTEM" && group.Contains("\\"))
+                        {
+                            Dictionary<string, string> folderInfo = new Dictionary<string, string>();
+                            folderInfo.Add("Group", group);
+                            folderInfo.Add("SAMAccountName", child.Name);
+                            folderInfo.Add("FullName", child.FullName);
+                            folderInfo.Add("Type", "Local");
+                            groups.Add(folderInfo);
+                        }
+                        else
+                        {
+
                         }
                     }
                 });

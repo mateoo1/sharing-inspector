@@ -614,20 +614,52 @@
                     </Button.Template>
                 </Button>
 
-                <TextBlock x:Name="Saved"
-                       Text=""
-                       Width="320"
-                       Foreground="#FFFFFF"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Left"
-                       FontFamily="Verdana"
-                       FontWeight="Light"
-                       FontSize="14"
-                       Margin="10,10,10,10"/>
+                <Button x:Name="Copy" 
+                        Content="Copy" 
+                        Click="Copy_Click"
+                        Foreground="#FFFFFF"
+                        Margin="10,10,10,10">
+
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="TextElement.FontFamily" Value="Fonts/#Lato-Bold"/>
+                            <Setter Property="Background" Value="#2baaba"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF3FBCC7"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Width="80" Height="25"
+                                CornerRadius="7"
+                                Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
             </StackPanel>
 
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right">
+
+                <TextBlock x:Name="Saved"
+                       Text=""
+                       Width="450"
+                       Foreground="#FF2A909C"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       FontFamily="Verdana"
+                       FontWeight="Light"
+                       FontSize="12"
+                       Margin="10,10,10,10"/>
 
                 <Image  Source=".\GitHub-Mark-Light-32px.png"
                 Width="32" 
