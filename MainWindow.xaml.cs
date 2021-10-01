@@ -70,6 +70,7 @@ namespace Sharing_Inspector
 
             submitButton.IsEnabled = false;
             submitButton.Content = "Inspecting...";
+            Progress.Text = "0%";
 
 
             // Groups identification (folder data) ------------
@@ -121,7 +122,6 @@ namespace Sharing_Inspector
                 else
                 {
                     LocalContext localmachineContext = new LocalContext();
-                    //membersOfThisGroup = localmachineContext.GetGroupMembers(folderData["Group"]);
                     membersOfThisGroup = await Task.Run(() => localmachineContext.GetGroupMembers(folderData["Group"]));
                 }
 
@@ -288,7 +288,7 @@ namespace Sharing_Inspector
         private void Copy_Click(object sender, RoutedEventArgs e)
         {
             Clipboard.SetText(accessData.Text);
-            Saved.Text = "Result has been copied to clipboard. Paste it to e.g. to Excel.";
+            Saved.Text = "Result has been copied to clipboard. Paste it e.g. to Excel.";
         }
     }
 }
