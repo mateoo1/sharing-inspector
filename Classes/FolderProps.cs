@@ -13,19 +13,48 @@ namespace Sharing_Inspector
     class FoldersProps
     {
         private string[] foldersTextBox;
+        private List<string> listOfFolderPaths = new List<string>();
+        private List<string> pathsNotExists = new List<string>();
 
         public FoldersProps(string provideFoldersIntextBox)
         {
             string foldersOneLine = Regex.Replace(provideFoldersIntextBox, @"\r\n?|\n", "");
             this.foldersTextBox = foldersOneLine.Split(';');
             Array.Resize(ref this.foldersTextBox, this.foldersTextBox.Length - 1);
+
+            foreach (var item in this.foldersTextBox)
+            {
+                if (Directory.Exists(item))
+                {
+                    this.listOfFolderPaths.Add(item);
+                }
+                else
+                {
+                    this.pathsNotExists.Add(item);
+                }
+            }
+        }
+
+        public List<string> NotExistingFolders()
+        {
+            return this.pathsNotExists;
+        }
+
+        public Dictionary<string, string> folderRecord (string Group, string SAMAccountName, string FullName, string Type)
+        {
+            Dictionary<string, string> folderInfo = new Dictionary<string, string>();
+            folderInfo.Add("Group", Group);
+            folderInfo.Add("SAMAccountName", SAMAccountName);
+            folderInfo.Add("FullName", FullName);
+            folderInfo.Add("Type", Type);
+            return folderInfo;
         }
 
         public ArrayList ShowAccessGroupsOfParentOnly(string prefix)
         {
             ArrayList groups = new ArrayList();
 
-            foreach (var folder in this.foldersTextBox)
+            foreach (var folder in this.listOfFolderPaths)
             {
                 try
                 {
@@ -39,22 +68,12 @@ namespace Sharing_Inspector
 
                         if (group.Contains(prefix))
                         {
-                            Dictionary<string, string> folderInfo = new Dictionary<string, string>();
-                            folderInfo.Add("Group", group.Replace(prefix, ""));
-                            folderInfo.Add("SAMAccountName", dirInfo.Name);
-                            folderInfo.Add("FullName", dirInfo.FullName);
-                            folderInfo.Add("Type", "Domain");
-                            groups.Add(folderInfo);
+                            groups.Add(folderRecord(group.Replace(prefix, ""), dirInfo.Name, dirInfo.FullName, "Domain"));
 
                         }
                         else if (group != "NT AUTHORITY\\SYSTEM" && group.Contains("\\"))
                         {
-                            Dictionary<string, string> folderInfo = new Dictionary<string, string>();
-                            folderInfo.Add("Group", group);
-                            folderInfo.Add("SAMAccountName", dirInfo.Name);
-                            folderInfo.Add("FullName", dirInfo.FullName);
-                            folderInfo.Add("Type", "Local");
-                            groups.Add(folderInfo);
+                            groups.Add(folderRecord(group, dirInfo.Name, dirInfo.FullName, "Local"));
                         }
                         else
                         {
@@ -63,11 +82,12 @@ namespace Sharing_Inspector
                     }
                 }
 
-                catch (Exception)
+                catch (Exception ex1)
                 {
-                    MessageBox.Show("Filed to get access groups. \n \n Make sure that: \n - Folders paths are correct \n - Program was launched as Administrator.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    break;
-                    //throw;
+                    MessageBox.Show("Failed to get access groups. \n \n Make sure that folders paths are correct.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(ex1.Message);
+                    // groups.Add(folderRecord("Folder not found", "Folder not found", folder, "None"));
+                    continue;
                 }
             }
             return groups;
@@ -84,7 +104,7 @@ namespace Sharing_Inspector
         //        foreach (var child in childDirsCollection)
         //        {
         //            DirectorySecurity folderSec = child.GetAccessControl();
-        //            var authRuleCollection = folderSec.GetAccessRules(true, true, typeof(NTAccount));
+        //            var authRuleCollection = folderSec.GetAccessRules(true, false, typeof(NTAccount));
 
         //            foreach (FileSystemAccessRule authRule in authRuleCollection)
         //            {
@@ -92,12 +112,16 @@ namespace Sharing_Inspector
 
         //                if (group.Contains(prefix))
         //                {
-        //                    Dictionary<string, string> folderInfo = new Dictionary<string, string>();
-        //                    folderInfo.Add("Group", group.Replace(prefix, ""));
-        //                    folderInfo.Add("SAMAccountName", child.Name);
-        //                    folderInfo.Add("FullName", child.FullName);
-        //                    folderInfo.Add("Type", "Domain");
-        //                    groups.Add(folderInfo);
+        //                    groups.Add(folderRecord(group, child.Name, child.FullName, "Domain"));
+
+        //                }
+        //                else if (group != "NT AUTHORITY\\SYSTEM" && group.Contains("\\"))
+        //                {
+        //                    groups.Add(folderRecord(group, child.Name, child.FullName, "Local"));
+        //                }
+        //                else
+        //                {
+
         //                }
         //            }
         //        }
@@ -108,49 +132,50 @@ namespace Sharing_Inspector
 
         public ArrayList ShowAccessGroupsOfChildsParallel(string prefix)
         {
-            ArrayList groups = new ArrayList();
-            string[] contentOfFoldersTextBox = this.foldersTextBox;
-
-            Parallel.ForEach<string>(contentOfFoldersTextBox, (item) =>
+            try
             {
-                var childDirsCollection = new DirectoryInfo(item).EnumerateDirectories("*", SearchOption.AllDirectories);
+                ArrayList groups = new ArrayList();
+                List<string> contentOfFoldersTextBox = this.listOfFolderPaths;
 
-                Parallel.ForEach<DirectoryInfo>(childDirsCollection, (child) =>
+                Parallel.ForEach<string>(contentOfFoldersTextBox, (item) =>
                 {
-                    DirectorySecurity folderSec = child.GetAccessControl();
-                    AuthorizationRuleCollection authRuleCollection = folderSec.GetAccessRules(true, false, typeof(NTAccount));
 
-                    foreach (FileSystemAccessRule authRule in authRuleCollection)
+                    var childDirsCollection = new DirectoryInfo(item).EnumerateDirectories("*", SearchOption.AllDirectories);
+
+                    Parallel.ForEach<DirectoryInfo>(childDirsCollection, (child) =>
                     {
-                        string group = authRule.IdentityReference.ToString();
+                        DirectorySecurity folderSec = child.GetAccessControl();
+                        AuthorizationRuleCollection authRuleCollection = folderSec.GetAccessRules(true, false, typeof(NTAccount));
 
-                        if (group.Contains(prefix))
+                        foreach (FileSystemAccessRule authRule in authRuleCollection)
                         {
-                            Dictionary<string, string> folderInfo = new Dictionary<string, string>();
-                            folderInfo.Add("Group", group.Replace(prefix, ""));
-                            folderInfo.Add("SAMAccountName", child.Name);
-                            folderInfo.Add("FullName", child.FullName);
-                            folderInfo.Add("Type", "Domain");
-                            groups.Add(folderInfo);
+                            string group = authRule.IdentityReference.ToString();
 
-                        }
-                        else if (group != "NT AUTHORITY\\SYSTEM" && group.Contains("\\"))
-                        {
-                            Dictionary<string, string> folderInfo = new Dictionary<string, string>();
-                            folderInfo.Add("Group", group);
-                            folderInfo.Add("SAMAccountName", child.Name);
-                            folderInfo.Add("FullName", child.FullName);
-                            folderInfo.Add("Type", "Local");
-                            groups.Add(folderInfo);
-                        }
-                        else
-                        {
+                            if (group.Contains(prefix))
+                            {
+                                groups.Add(folderRecord(group, child.Name, child.FullName, "Domain"));
 
+                            }
+                            else if (group != "NT AUTHORITY\\SYSTEM" && group.Contains("\\"))
+                            {
+                                groups.Add(folderRecord(group, child.Name, child.FullName, "Local"));
+                            }
+                            else
+                            {
+
+                            }
                         }
-                    }
+                    });
                 });
-            });
-            return groups;
+
+
+                return groups;
+            }
+            catch (Exception ex3)
+            {
+                MessageBox.Show(ex3.Message);
+                throw;
+            }
         }
     }
 }

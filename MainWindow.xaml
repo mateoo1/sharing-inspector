@@ -402,7 +402,36 @@
                     </Button>
                 </StackPanel>
             </StackPanel>
+            <StackPanel Orientation="vertical"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left">
+
+                <TextBlock x:Name="ProblemAdministrator"
+                       Text=""
+                       Width="400"
+                       Foreground="#FFD62E2E"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       FontFamily="Verdana"
+                       FontWeight="Light"
+                       FontSize="12"
+                       Margin="10,10,10,0"/>
+
+                <TextBlock x:Name="ProblemDomain"
+                       Text=""
+                       Width="400"
+                       Foreground="#FFD62E2E"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       FontFamily="Verdana"
+                       FontWeight="Light"
+                       FontSize="12"
+                       Margin="10,5,10,0"/>
+
+            </StackPanel>
         </StackPanel>
+
+
 
         <!-- Inspect Column-->
 

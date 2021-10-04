@@ -42,24 +42,18 @@ namespace Sharing_Inspector
             domainPrefix.Text = Domain.domainPrefix;
             ContainerPath.Text = Domain.ContainerPath;
 
-            accessData.Text = "Folder,GroupName,Type,Member,SamAccountName,Status,FullPath";
+            accessData.Text = "Folder;GroupName;Type;Member;SamAccountName;Status;FullPath";
 
             if (Domain.domainAvailability == false)
             {
-                MessageBox.Show("Domain is not available. Program will not work correctly.",
-                    "Warning",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
+
+                ProblemDomain.Text = "Problem: Domain unreachable. Program may not work correctly.";
             }
 
             if (!IsAdministrator())
             {
-                MessageBox.Show("Application must be launched as Administrator.",
-                "Warning",
-                MessageBoxButton.OK,
-                MessageBoxImage.Warning);
+                ProblemAdministrator.Text = "Problem: Program should be run as Administrator";
             }
-
         }
 
         private async void submitButton_Click(object sender, RoutedEventArgs e)
@@ -100,7 +94,6 @@ namespace Sharing_Inspector
             decimal completedItems = 0;
             Progress.Text += "";
             //----------------------
-
 
             
             foreach (Dictionary<string, string> folderData in folderDataCollection)
@@ -155,15 +148,14 @@ namespace Sharing_Inspector
                     AccessData.Add(Record);
 
                     accessData.Text += "\n" + 
-                        Record.Folder +","+ 
-                        Record.AdGroupName +","+ 
-                        Record.groupType +","+ 
-                        Record.FullName +","+ 
-                        Record.SamAccountName +","+ 
-                        Record.Status +","+ 
+                        Record.Folder +";"+ 
+                        Record.AdGroupName +";"+ 
+                        Record.groupType +";"+ 
+                        Record.FullName +";"+ 
+                        Record.SamAccountName +";"+ 
+                        Record.Status +";"+ 
                         Record.FullPath;
                 }
-
 
                 // Progress control -----
                 completedItems += 1;
@@ -180,6 +172,12 @@ namespace Sharing_Inspector
                 // ---------------------
             }
 
+            // Folder that not exists:
+            List<string> notFound = this.folderProps.NotExistingFolders();
+            foreach (string n in notFound)
+            {
+                accessData.Text += "\n" + n + ";Folder not found";
+            }
 
             Domain.DisposeContext();
             watch.Stop();
@@ -257,7 +255,7 @@ namespace Sharing_Inspector
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
-            accessData.Text = "Folder,GroupName,Type,Member,SamAccountName,Status,FullPath";
+            accessData.Text = "Folder;GroupName;Type;Member;SamAccountName;Status;FullPath";
             submitButton.IsEnabled = true;
             submitButton.Content = "Inspect";
             Timer.Text = "";
