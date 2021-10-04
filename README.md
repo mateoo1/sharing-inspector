@@ -1,4 +1,4 @@
-# Sharing Inspector 1.0
+# Sharing Inspector 1.1
 
 Sharing Inspector is a tool that making possible to quickly inspect who have access to selected shared folders. It is detecting assigned security groups and displaying all member users for local and domain groups. It also checking if user account is still enabled or not. The result of inspection is presented in csv format, which are very convenient to analyse, for instance in Excel. XML export is also available if needed.
 
@@ -72,3 +72,12 @@ To make this program better please report them to me at: mateoo1@10g.pl
 Program layout:  
 
 ![sharing_inspector_layout](https://user-images.githubusercontent.com/32539815/135668252-d5df0c95-0d2f-4fa3-9435-ed8c90ec5cd9.jpg)
+
+
+**RELEASE NOTES**
+
+v. 1.1
+
+1) Fix for folder not found exception. Paths that not exist will not stop program from now. Not existing paths will be displayed at the end of the output.
+2) Delimiter changed from "," to ";".
+3) Notification about that program can't connect with domain and that is not launched as Administrator from now will be displayed in UI not in message boxs on startup.
