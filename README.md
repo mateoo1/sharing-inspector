@@ -79,10 +79,10 @@ Program layout:
 v. 1.2
 
 1) Browse button was causing program crash when .NET Framework 4.8 was not available on server. Now in that case browse button will be disabled and appropriate info displayed in UI.
-2) Program is crashing when a lot of subfolders is inside parent folder. If user decides to perform scanning with subfolders then after selecting checkbox additional info will be displayed in message box.
+2) Program is crashing when a lot of subfolders are inside parent folder. If user decides to perform scanning with subfolders then after selecting checkbox additional info will be displayed in message box.
 
 v. 1.1
 
 1) Fix for folder not found exception. Paths that not exist will not stop program from now. Not existing paths will be displayed at the end of the output.
 2) Delimiter changed from "," to ";".
-3) Notification about that program can't connect with domain and that is not launched as Administrator from now will be displayed in UI not in message boxs on startup.
+3) Notification about that program can't connect with domain and that is not launched as Administrator from now will be displayed in UI not in message boxes on startup.
