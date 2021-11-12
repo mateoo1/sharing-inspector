@@ -1,4 +1,4 @@
-# Sharing Inspector 1.1
+# Sharing Inspector 1.2
 
 Sharing Inspector is a tool that making possible to quickly inspect who have access to selected shared folders. It is detecting assigned security groups and displaying all member users for local and domain groups. It also checking if user account is still enabled or not. The result of inspection is presented in csv format, which are very convenient to analyse, for instance in Excel. XML export is also available if needed.
 
@@ -75,6 +75,11 @@ Program layout:
 
 
 **RELEASE NOTES**
+
+v. 1.2
+
+1) Browse button was causing program crash when .NET Framework 4.8 was not available on server. Now in that case browse button will be disabled and appropriate info displayed in UI.
+2) Program is crashing when a lot of subfolders is inside parent folder. If user decides to perform scanning with subfolders then after selecting checkbox additional info will be displayed in message box.
 
 v. 1.1
 
