@@ -55,11 +55,11 @@ namespace Sharing_Inspector
                 ProblemAdministrator.Text = "Problem: Program should be run as Administrator";
             }
 
-            // Browse button inactiv if .NET Framework 4.8 not available
-            // https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed?redirectedfrom=MSDN
-
+            /*
+             * Browse button is inactive if .NET Framework 4.8 not available
+             * https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed?redirectedfrom=MSDN
+            */
             const string subkey = @"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\";
-
             using (var ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey))
             {
                 if (ndpKey == null || !((int)ndpKey.GetValue("Release") >= 528040))
