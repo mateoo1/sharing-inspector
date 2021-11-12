@@ -315,7 +315,8 @@
                        FontSize="12"
                        Margin="5,0,15,0"/>
 
-                <CheckBox x:Name="Subfolders" />
+                <CheckBox x:Name="Subfolders" 
+                          Click="Subfolder_CLick"/>
             </StackPanel>
 
 
@@ -415,7 +416,7 @@
                        FontFamily="Verdana"
                        FontWeight="Light"
                        FontSize="12"
-                       Margin="10,10,10,0"/>
+                       Margin="10,0,10,0"/>
 
                 <TextBlock x:Name="ProblemDomain"
                        Text=""
@@ -426,7 +427,18 @@
                        FontFamily="Verdana"
                        FontWeight="Light"
                        FontSize="12"
-                       Margin="10,5,10,0"/>
+                       Margin="10,2,10,0"/>
+
+                <TextBlock x:Name="ProblemNETFramework"
+                       Text=""
+                       Width="400"
+                       Foreground="#FFD62E2E"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       FontFamily="Verdana"
+                       FontWeight="Light"
+                       FontSize="12"
+                       Margin="10,0,10,0"/>
 
             </StackPanel>
         </StackPanel>
@@ -707,6 +719,14 @@
                 </Hyperlink>
                 </TextBlock>
             </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+
+                <TextBlock Text="Ver. 1.2"
+                           Foreground="#FF2A909C"/>
+            </StackPanel>
+
         </StackPanel>
     </Grid>
 </Window>

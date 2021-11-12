@@ -10,7 +10,7 @@ using System.Windows.Input;
 using System.Xml.Serialization;
 using System.Diagnostics;
 using System.Windows.Navigation;
-
+using Microsoft.Win32;
 
 namespace Sharing_Inspector
 {
@@ -54,13 +54,26 @@ namespace Sharing_Inspector
             {
                 ProblemAdministrator.Text = "Problem: Program should be run as Administrator";
             }
+
+            // Browse button inactiv if .NET Framework 4.8 not available
+            // https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed?redirectedfrom=MSDN
+
+            const string subkey = @"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\";
+
+            using (var ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey))
+            {
+                if (ndpKey == null || !((int)ndpKey.GetValue("Release") >= 528040))
+                {
+                    addFolderButton.IsEnabled = false;
+                    ProblemNETFramework.Text = "Browsing is not available without .NET Framework 4.8";
+                }
+            }
         }
 
         private async void submitButton_Click(object sender, RoutedEventArgs e)
         {
             var watch = Stopwatch.StartNew();
             Timer.Text = "";
-
 
             submitButton.IsEnabled = false;
             submitButton.Content = "Inspecting...";
@@ -205,6 +218,7 @@ namespace Sharing_Inspector
 
         private void addFolderButton_Click(object sender, RoutedEventArgs e)
         {
+
             Folders.Text += OpenFileBrowserDialog(true) + ";\n";
         }
 
@@ -287,6 +301,18 @@ namespace Sharing_Inspector
         {
             Clipboard.SetText(accessData.Text);
             Saved.Text = "Result has been copied to clipboard. Paste it e.g. to Excel.";
+        }
+
+        private void Subfolder_CLick(object sender, RoutedEventArgs e)
+        {
+
+            if (Subfolders.IsChecked == true)
+            {
+                MessageBox.Show("Huge number of subfolders may cause program crash. \n If do so, consider to split your scanning for smaller parts.",
+                "INFO",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+            }
         }
     }
 }
